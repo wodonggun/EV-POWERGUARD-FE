@@ -1,3 +1,18 @@
+# EV POWER GUARD 프론트엔드
+![](https://git.hrd.cloudzcp.net/attachments/bbc0f57c-e967-49eb-a3ea-87d325587b69)
+
+
+# 폴더 구조
+
+![](https://git.hrd.cloudzcp.net/attachments/f4c81225-995c-4eb9-89f4-dd6a8d7c82ef)  
+
+1. `contents.js` : 화면 중앙에 바뀌는 주요 도메인(계속 바뀌는 화면)
+    contents내부 Route를 통해서 해당 화면으로 컴포넌트 교체(화면 전환)
+2. `main.js` : Top/Side/Content 구분하여 구조화(따로 수정x)
+3. `side.js` : 좌측 사이드메뉴창
+4. `top.js` : 상단 메뉴창(고정)
+5. `pages폴더` : 각 서비스별로 개인 FE폴더 생성
+6. `style.js` : 디자인 설정
 # 프로젝트 시작하기
 
 - `git clone {https 주소}` : git주소에서 EV POWER GUARD 소스 가져오기
@@ -9,18 +24,22 @@
 
 1. `Type annotations can only be used in TypeScript files.(any 형식 주석은 TypeScript 파일에서만 사용할 수 있습니다)`
 
-```
-vs code -> F1 -> setting.json검색 -> preferences: Open Settings(JSON) 선택 -> "javascript.validate.enable" : false 추가
-```
 
-2. `Module React-Google-Login not found.
+    vs code -> F1 -> setting.json검색 -> preferences: Open Settings(JSON) 선택 -> "javascript.validate.enable" : false 추가
 
-```
-npm install gapi-script react-google-login --save --legacy-peer-deps
-```
+
+2. `Module React-Google-Login not found.`
+
+
+    npm install gapi-script react-google-login --save --legacy-peer-deps
+
+
 
 ---
-
+---
+  
+    
+      
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

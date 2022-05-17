@@ -34,6 +34,126 @@
     npm install gapi-script react-google-login --save --legacy-peer-deps
 
 
+# YOON님 작성
+패키지 구조
+
+[components] 폴더는 공통으로 사용할 수 있는 component 정의
+
+[frame] 폴더는 공통 layout 정의 
+
+       1) top.js
+
+       2) slide.js
+
+       3) main.js
+
+       4) content.js
+
+[pages] 폴더 아래 각자 화면 폴더 추가해서 사용하면 됩니다.
+
+      ex) pages/reviews/*.js
+
+package.json 에 dependency 정의 및 script 정의 해두었습니다. 필요 시 추가하면 됩니다
+
+```
+"dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.4",
+    "@mui/x-data-grid": "^5.10.0",
+    "@mui/x-data-grid-generator": "^5.10.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.27.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  ```
+ api.js 에 백엔드 호출 시 필요한 api 를 정의했는데 method 는 GET, POST, PUT, DELETE 만 있습니다. 추가 필요 시 추가하시면 됩니다
+
+  2. Component Library
+
+React Components - Material UI 라는 library를  import 하고 있습니다. component 추가나 함수 필요할 경우 해당 페이지 참조해서 활용하시면 됩니다.
+
+      ex) import { List } from '@mui/material'; //list component
+
+ 
+
+3. 화면 개발 순서
+
+최초 진입 시 index.js 가 실행
+
+import 된 ./frame/main.js 
+
+main.js 는 top.js, side,js, content.js를 import 하고 있음
+
+side.js 에 각자 메뉴 추가 및 content.js 에 router 추가 필요
+
+[side.js]
+```
+
+  /* 메뉴 추가 */
+  const itemList = [
+    {
+      icon: RateReviewIcon,
+      url: '/review',
+      name: 'Review',
+      handleClick: handleListItemClick,
+    },
+    {
+      icon: EditLocationAltIcon,
+      url: '/mystations',
+      name: 'MyStation',
+      handleClick: handleListItemClick,
+    },
+  ];
+  ```
+[content.js]
+
+```
+import { Review } from '../pages/review';
+
+function Content() {
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/review" element={<Review />}></Route>
+      </Routes>
+    </div>
+  );
+}
+export default Content;
+ 
+```
+  5. router 통해 /pages/review 찾아가고, /pages/review/index.js → review.js 실행
+
+  6.  api 호출 방법
+
+[review.js]
+
+```
+  /**
+   * 전체 리뷰 리스트를 서버로 부터 받아 온다.
+   */
+  const getReviewList = async () => {
+    const res = await api.get('/review');
+    if (res.status === 200 || res.status === 302) {
+      setReviewList(res.data);
+    }
+    return res;
+  };
+  ```
 
 ---
 ---

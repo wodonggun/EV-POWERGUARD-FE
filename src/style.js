@@ -7,7 +7,7 @@ const frame = {
 const frame_top = {
   display: 'flex',
   flexDirection: 'row',
-  height: '50px',
+  height: '65px',
 };
 const frame_bottom = {
   display: 'flex',
@@ -23,6 +23,7 @@ const frame_bottom_content = {
   display: 'flex',
   flexDirection: 'column',
   width: '100vw',
+  marginTop: '5vh',
 };
 
 export {

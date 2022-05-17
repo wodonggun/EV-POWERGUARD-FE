@@ -1,3 +1,26 @@
+# 프로젝트 시작하기
+
+- `git clone {https 주소}` : git주소에서 EV POWER GUARD 소스 가져오기
+- `cd EVPOWERGUARD-FE` : 터미널에서 해당 폴더로 이동
+- `npm install` : react환경 구성을 위한 npm 설치
+- `npm start` : react 웹 시작
+
+# 오류 해결
+
+1. `Type annotations can only be used in TypeScript files.(any 형식 주석은 TypeScript 파일에서만 사용할 수 있습니다)`
+
+```
+vs code -> F1 -> setting.json검색 -> preferences: Open Settings(JSON) 선택 -> "javascript.validate.enable" : false 추가
+```
+
+2. `Module React-Google-Login not found.
+
+```
+npm install gapi-script react-google-login --save --legacy-peer-deps
+```
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

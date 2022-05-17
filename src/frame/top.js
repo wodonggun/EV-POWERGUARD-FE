@@ -1,7 +1,11 @@
-import React from 'react';
-import { Box, List, ListItem } from '@mui/material';
+import Header from '../pages/account/header';
 
 function Top() {
-  return <div>탑영역 입니다.</div>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
+
 export default Top;

@@ -13,6 +13,7 @@ import {
   renderRating,
 } from '@mui/x-data-grid-generator/renderer';
 import api from '../../api';
+import { useStoreReview } from '../../stores';
 const CustomToolbar = ({ setFilterButtonEl }) => (
   <GridToolbarContainer>
     <GridToolbarFilterButton ref={setFilterButtonEl} />
@@ -57,18 +58,16 @@ const columns = [
 ];
 
 function Review() {
-  const [filterButtonEl, setFilterButtonEl] = useState(null);
-  const [reviewList, setReviewList] = useState([]);
-  const [detailVisible, setDetailVisible] = useState(false);
-  const [listVisible, setListVisible] = useState(false);
-  const [writingVisible, setWritingVisible] = useState(false);
-  const [selectedStation, setSelectedStation] = useState({
-    stationName: '',
-    content: '',
-    rating: 5,
-    userName: '',
-    registDate: '',
-  });
+  const {
+    filterButtonEl,
+    reviewList,
+    visible,
+    selectedStation,
+    setFilterButtonEl,
+    setReviewList,
+    setVisible,
+    setSelectedStation,
+  } = useStoreReview((state) => state);
   const selectedRow = useRef({
     stationName: '',
     content: '',
@@ -79,11 +78,11 @@ function Review() {
   const handleClickContent = useCallback((params, event) => {
     if (params.field === 'content') {
       selectedRow.current = params.row;
-      setDetailVisible(true);
+      setVisible('detail', true);
     }
   }, []);
   const handleClickWriteReview = useCallback((params, event) => {
-    setListVisible(true);
+    setVisible('list', true);
   });
   const handleClickGetMyReview = useCallback((params, event) => {
     const res = api.get('/myReview', { reviewerId: 'user01' });
@@ -94,7 +93,7 @@ function Review() {
 
   const handleSelectStation = useCallback((visible, stationData) => {
     setSelectedStation(stationData);
-    setWritingVisible(visible);
+    setVisible('writing', visible);
   }, []);
   /**
    * 전체 리뷰 리스트를 서버로 부터 받아 온다.
@@ -253,19 +252,19 @@ function Review() {
         />
       </div>
       <ReviewDetail
-        isShow={detailVisible}
+        isShow={visible['detail']}
         data={selectedRow.current}
-        setVisible={setDetailVisible}
+        setVisible={setVisible}
       />
       <StationList
-        isShow={listVisible}
-        setVisible={setListVisible}
+        isShow={visible['list']}
+        setVisible={setVisible}
         onClickOk={handleSelectStation}
       />
       <ReviewWrite
-        isShow={writingVisible}
+        isShow={visible['writing']}
         data={selectedStation}
-        setVisible={setWritingVisible}
+        setVisible={setVisible}
       />
     </Box>
   );

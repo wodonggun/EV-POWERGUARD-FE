@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useStoreAuth } from '../../stores';
 
 const pages = ['로그인서비스1', '충전소서비스2', '리뷰서비스3'];
 const settings = ['Profile', 'Account', 'Logout'];
@@ -19,6 +20,7 @@ const settings = ['Profile', 'Account', 'Logout'];
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { userId, setUserId } = useStoreAuth((state) => state);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -126,7 +128,7 @@ const Header = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            wodonggun@naver.com&nbsp;&nbsp;
+            {`${userId}  `}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

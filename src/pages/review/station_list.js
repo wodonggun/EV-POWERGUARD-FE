@@ -38,10 +38,10 @@ function StationList({ isShow, setVisible, onClickOk }) {
   };
 
   const handleClose = () => {
-    setVisible(false);
+    setVisible('list', false);
   };
   const handleOk = () => {
-    setVisible(false);
+    setVisible('list', false);
     onClickOk(true, stationRef.current);
   };
 

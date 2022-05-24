@@ -15,7 +15,7 @@ import api from '../../api';
 
 export default function ReviewDetail({ data, isShow, setVisible }) {
   const handleClose = () => {
-    setVisible(false);
+    setVisible('detail', false);
   };
 
   const handleDelete = () => {

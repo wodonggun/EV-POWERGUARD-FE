@@ -19,7 +19,7 @@ export default function ReviewWrite({ data, isShow, setVisible }) {
   const [rating, setRating] = useState(5);
   const contentRef = useRef(null);
   const handleClose = (event) => {
-    setVisible(false, event);
+    setVisible('writing', false);
   };
   const handleSave = (e) => {
     console.log(rating);

@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import ReviewDetail from './review_detail';
 import StationList from './station_list';
 import ReviewWrite from './review_writing';
@@ -12,6 +12,14 @@ import {
   renderEditRating,
   renderRating,
 } from '@mui/x-data-grid-generator/renderer';
+
+import {
+  LocalizationProvider,
+  TimePicker,
+  DatePicker,
+} from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import api from '../../api';
 import { useStoreReview } from '../../stores';
 const CustomToolbar = ({ setFilterButtonEl }) => (
@@ -26,18 +34,18 @@ const columns = [
     type: 'string',
   },
   {
-    field: 'stationName',
+    field: 'stationId',
     headerName: '충전소명',
     type: 'string',
   },
   {
-    field: 'content',
+    field: 'contents',
     headerName: '내용',
     type: 'string',
     width: 200,
   },
   {
-    field: 'rating',
+    field: 'starPoint',
     headerName: '별점',
     renderCell: renderRating,
     renderEditCell: renderEditRating,
@@ -45,7 +53,7 @@ const columns = [
     width: 200,
   },
   {
-    field: 'userName',
+    field: 'reviewerId',
     headerName: '작성자',
     type: 'string',
   },
@@ -68,15 +76,16 @@ function Review() {
     setVisible,
     setSelectedStation,
   } = useStoreReview((state) => state);
+  const [date, setDate] = useState(new Date());
   const selectedRow = useRef({
-    stationName: '',
-    content: '',
-    rating: 5,
-    userName: '',
+    stationId: '',
+    contents: '',
+    starPoint: 5,
+    reviewerId: '',
     registDate: '',
   });
   const handleClickContent = useCallback((params, event) => {
-    if (params.field === 'content') {
+    if (params.field === 'contents') {
       selectedRow.current = params.row;
       setVisible('detail', true);
     }
@@ -90,120 +99,29 @@ function Review() {
       setReviewList();
     }
   });
+  /**
+   * picker가 변경되면 핸들러에 변경된 date 값이 넘어 옵니다.
+   * picker에 현재 설정된 값은 state date를 참조 하면 됩니다.
+   */
+  const handleChangeDate = useCallback((date) => {
+    //
+    setDate(date);
+  });
 
   const handleSelectStation = useCallback((visible, stationData) => {
     setSelectedStation(stationData);
     setVisible('writing', visible);
   }, []);
+
   /**
    * 전체 리뷰 리스트를 서버로 부터 받아 온다.
    */
   const getReviewList = async () => {
-    // const res = await api.get('/review');
-    // if (res.status === 200 || res.status === 302) {
-    //   setReviewList(res.data);
-    // }
-    const res = [
-      {
-        id: '1',
-        stationName: 'station01',
-        content: '좋아요',
-        rating: 5,
-        userName: 'user01',
-        registDate: '20220513',
-      },
-      {
-        id: '2',
-        stationName: 'station02',
-        content: '별로예요',
-        rating: 1,
-        userName: 'user02',
-        registDate: '20220512',
-      },
-      {
-        id: '3',
-        stationName: 'station03',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user03',
-        registDate: '20220512',
-      },
+    const res = await api.get('/api/review');
+    if (res.status === 200 || res.status === 302) {
+      setReviewList(res.data);
+    }
 
-      {
-        id: '4',
-        stationName: 'station04',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user04',
-        registDate: '20220512',
-      },
-      {
-        id: '5',
-        stationName: 'station05',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user05',
-        registDate: '20220512',
-      },
-      {
-        id: '6',
-        stationName: 'station06',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user06',
-        registDate: '20220512',
-      },
-      {
-        id: '7',
-        stationName: 'station07',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user07',
-        registDate: '20220512',
-      },
-      {
-        id: '8',
-        stationName: 'station08',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user08',
-        registDate: '20220512',
-      },
-      {
-        id: '9',
-        stationName: 'station09',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user09',
-        registDate: '20220512',
-      },
-      {
-        id: '10',
-        stationName: 'station10',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user10',
-        registDate: '20220512',
-      },
-      {
-        id: '11',
-        stationName: 'station11',
-        content:
-          'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        rating: 3,
-        userName: 'user11',
-        registDate: '20220512',
-      },
-    ];
-    setReviewList(res);
     return res;
   };
 
@@ -228,6 +146,21 @@ function Review() {
         <h2>리뷰 조회</h2>
         <Button onClick={handleClickWriteReview}>새 리뷰 작성</Button>
         <Button onClick={handleClickGetMyReview}>나의 리뷰 보기</Button>
+
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            label="date picker example"
+            value={date}
+            onChange={handleChangeDate}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <TimePicker
+            renderInput={(props) => <TextField {...props} />}
+            label="time picker example"
+            value={date}
+            onChange={handleChangeDate}
+          />
+        </LocalizationProvider>
       </div>
       <div style={{ height: 500, width: '100%' }}>
         <DataGrid

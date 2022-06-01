@@ -4,6 +4,7 @@ import { Review } from '../pages/review';
 import Home from '../pages/account/home';
 import SignIn from '../pages/account/signIn';
 import SignUp from '../pages/account/signUp';
+import LoginSuccess from '../pages/account/loginSuccess';
 
 function Content() {
   return (
@@ -13,6 +14,7 @@ function Content() {
         <Route path="/review" element={<Review />}></Route>
         <Route path="/signIn" element={<SignIn />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
+        <Route path="/loginSuccess" element={<LoginSuccess />}></Route>
       </Routes>
     </div>
   );

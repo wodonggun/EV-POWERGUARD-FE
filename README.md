@@ -1,18 +1,19 @@
 # EV POWER GUARD 프론트엔드
-![](https://git.hrd.cloudzcp.net/attachments/bbc0f57c-e967-49eb-a3ea-87d325587b69)
 
+![](https://git.hrd.cloudzcp.net/attachments/bbc0f57c-e967-49eb-a3ea-87d325587b69)
 
 # 폴더 구조
 
-![](https://git.hrd.cloudzcp.net/attachments/f4c81225-995c-4eb9-89f4-dd6a8d7c82ef)  
+![](https://git.hrd.cloudzcp.net/attachments/f4c81225-995c-4eb9-89f4-dd6a8d7c82ef)
 
 1. `contents.js` : 화면 중앙에 바뀌는 주요 도메인(계속 바뀌는 화면)
-    contents내부 Route를 통해서 해당 화면으로 컴포넌트 교체(화면 전환)
+   contents내부 Route를 통해서 해당 화면으로 컴포넌트 교체(화면 전환)
 2. `main.js` : Top/Side/Content 구분하여 구조화(따로 수정x)
 3. `side.js` : 좌측 사이드메뉴창
 4. `top.js` : 상단 메뉴창(고정)
 5. `pages폴더` : 각 서비스별로 개인 FE폴더 생성
 6. `style.js` : 디자인 설정
+
 # 프로젝트 시작하기
 
 - `git clone {https 주소}` : git주소에서 EV POWER GUARD 소스 가져오기
@@ -20,26 +21,43 @@
 - `npm install` : react환경 구성을 위한 npm 설치
 - `npm start` : react 웹 시작
 
+# 라이브러리
+
+- `npm install react-redux` : redux상태관리 설치
+- `npm install react-google-login --force` : google login react버전 안맞아서 강제 설치
+
+# 주의 사항
+
+- `SNS 로그인 인증` : localhost:3000, localhost:3001만 인증가능.
+- `` :
+
 # 오류 해결
 
 1. `Type annotations can only be used in TypeScript files.(any 형식 주석은 TypeScript 파일에서만 사용할 수 있습니다)`
 
-
-    vs code -> F1 -> setting.json검색 -> preferences: Open Settings(JSON) 선택 -> "javascript.validate.enable" : false 추가
-
+   vs code -> F1 -> setting.json검색 -> preferences: Open Settings(JSON) 선택 -> "javascript.validate.enable" : false 추가
 
 2. `Module React-Google-Login not found.`
 
+   npm install gapi-script react-google-login --save --legacy-peer-deps
 
-    npm install gapi-script react-google-login --save --legacy-peer-deps
+3. `only one instance of babel-polyfill is allowed 오류`
 
+```
+Browser에서 직접 사용하는 standalone 방식의 경우, Windows객체에 기능을 추가하기 때문에 딱 한번 적용해줘야함 (전역 객체의 오염?)
+ Web app에 babel-polyfill을 사용하고 있다면 제거해야 하고, 아니면 다른 라이브러리에서 사용하고있는지 확인해야함.
+
+ naveridlogin sdk를 nopolyfill sdfk로 변경함.
+  "https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js";->   'https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js';
+```
 
 # YOON님 작성
+
 패키지 구조
 
 [components] 폴더는 공통으로 사용할 수 있는 component 정의
 
-[frame] 폴더는 공통 layout 정의 
+[frame] 폴더는 공통 layout 정의
 
        1) top.js
 
@@ -79,28 +97,28 @@ package.json 에 dependency 정의 및 script 정의 해두었습니다. 필요 
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  ```
- api.js 에 백엔드 호출 시 필요한 api 를 정의했는데 method 는 GET, POST, PUT, DELETE 만 있습니다. 추가 필요 시 추가하시면 됩니다
+```
 
-  2. Component Library
+api.js 에 백엔드 호출 시 필요한 api 를 정의했는데 method 는 GET, POST, PUT, DELETE 만 있습니다. 추가 필요 시 추가하시면 됩니다
 
-React Components - Material UI 라는 library를  import 하고 있습니다. component 추가나 함수 필요할 경우 해당 페이지 참조해서 활용하시면 됩니다.
+2. Component Library
+
+React Components - Material UI 라는 library를 import 하고 있습니다. component 추가나 함수 필요할 경우 해당 페이지 참조해서 활용하시면 됩니다.
 
       ex) import { List } from '@mui/material'; //list component
-
- 
 
 3. 화면 개발 순서
 
 최초 진입 시 index.js 가 실행
 
-import 된 ./frame/main.js 
+import 된 ./frame/main.js
 
 main.js 는 top.js, side,js, content.js를 import 하고 있음
 
 side.js 에 각자 메뉴 추가 및 content.js 에 router 추가 필요
 
 [side.js]
+
 ```
 
   /* 메뉴 추가 */
@@ -118,7 +136,8 @@ side.js 에 각자 메뉴 추가 및 content.js 에 router 추가 필요
       handleClick: handleListItemClick,
     },
   ];
-  ```
+```
+
 [content.js]
 
 ```
@@ -134,11 +153,12 @@ function Content() {
   );
 }
 export default Content;
- 
-```
-  5. router 통해 /pages/review 찾아가고, /pages/review/index.js → review.js 실행
 
-  6.  api 호출 방법
+```
+
+5. router 통해 /pages/review 찾아가고, /pages/review/index.js → review.js 실행
+
+6. api 호출 방법
 
 [review.js]
 
@@ -153,13 +173,12 @@ export default Content;
     }
     return res;
   };
-  ```
+```
 
 ---
+
 ---
-  
-    
-      
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

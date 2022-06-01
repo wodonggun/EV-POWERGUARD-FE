@@ -1,5 +1,17 @@
 import * as React from 'react';
 import { Container } from '@mui/material';
+import LoginGoogleButton from '../account/Oauth2/loginGoogle';
+
+function SignInSide() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
+}
 function Home() {
   return (
     <>
@@ -24,4 +36,5 @@ function Home() {
     </>
   );
 }
+
 export default Home;

@@ -17,6 +17,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginGoogleButton from '../account/Oauth2/loginGoogle';
 import LoginNaverButton from '../account/Oauth2/loginNaver';
 
+import { useEffect, useInsertionEffect } from 'react';
+import { gapi } from 'gapi-script';
+
+const clientId =
+  '235080019852-bi0219rldfmnd5tt5pblfvmkpsjdf9tk.apps.googleusercontent.com';
+
 function Copyright(props) {
   return (
     <Typography
@@ -38,6 +44,16 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide() {
+  useInsertionEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: '',
+      });
+    }
+    gapi.load('client:auth2', start);
+  });
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -145,6 +161,7 @@ export default function SignInSide() {
                   </Grid>
                 </Grid>
                 <Grid align="center">
+                  {/* SNS 로그인 버튼 리스트 */}
                   <LoginGoogleButton></LoginGoogleButton>
                   <LoginNaverButton></LoginNaverButton>
                 </Grid>

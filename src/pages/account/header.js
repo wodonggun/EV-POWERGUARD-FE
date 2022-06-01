@@ -13,14 +13,18 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useStoreAuth } from '../../stores';
+import { Link } from 'react-router-dom';
 
 const pages = ['로그인서비스1', '충전소서비스2', '리뷰서비스3'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 const Header = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { userId, setUserId } = useStoreAuth((state) => state);
+
+  // ID, 프로필사진, 로그인토큰, 유저권한
+  const { userId, userProfileImg, userToken, userMemberShip, setUserId } =
+    useStoreAuth((state) => state);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,8 +37,8 @@ const Header = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseUserMenu = (props) => {
+    setAnchorElUser(props.key);
   };
 
   return (
@@ -131,7 +135,7 @@ const Header = () => {
             {`${userId}  `}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={userProfileImg} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -151,7 +155,19 @@ const Header = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  id={setting}
+                  key={setting}
+                  onClick={
+                    (handleCloseUserMenu,
+                    (props) => {
+                      console.log('test', props.target.innerHTML);
+                      if (props.target.innerHTML === 'Logout') {
+                        document.location.href = '/signIn'; //로그아웃 메뉴 클릭시, 기본적으로 로그인 페이지로 이동.
+                      }
+                    })
+                  }
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseConfig = {
-  baseURL: window.location.origin.replace(window.location.port, 9000),
+  baseURL: window.location.origin.replace(window.location.port, 8081),
 };
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {
@@ -49,7 +49,7 @@ const PUT = async (url, config, sFunc, fFunc) => {
 
 const DELETE = async (url, config, sFunc, fFunc) => {
   try {
-    const response = await axios.delete(url, config);
+    const response = await axios.delete(url, Object.assign(baseConfig, config));
     if (typeof sFunc === 'function') {
       sFunc(response);
     }

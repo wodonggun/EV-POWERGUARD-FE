@@ -20,7 +20,7 @@ export default function ReviewDetail({ data, isShow, setVisible }) {
 
   const handleDelete = () => {
     console.log(data.id);
-    // api.handleDelete('/deleteReview', { stationId: data.id });
+    api.delete('/api/review/', { id: data.id });
   };
   const handleSave = () => {};
   return (
@@ -33,7 +33,7 @@ export default function ReviewDetail({ data, isShow, setVisible }) {
           </Grid>
           <Grid item xs>
             <Typography variant="subtitle1" readOnly>
-              {data.stationName}
+              {data.stationId}
             </Typography>
           </Grid>
           <Grid item xs>
@@ -41,7 +41,7 @@ export default function ReviewDetail({ data, isShow, setVisible }) {
           </Grid>
           <Grid item xs>
             <Typography variant="subtitle1" readOnly>
-              {data.userName}
+              {data.reviewerId}
             </Typography>
           </Grid>
         </Grid>
@@ -51,7 +51,7 @@ export default function ReviewDetail({ data, isShow, setVisible }) {
             <Typography variant="subtitle1">평점</Typography>
           </Grid>
           <Grid item>
-            <Rating name="rating" value={data.rating} />
+            <Rating name="rating" value={data.starPoint} />
           </Grid>
         </Grid>
         <Grid container direction="row" sx={{ padding: '10px 0' }}>
@@ -62,7 +62,7 @@ export default function ReviewDetail({ data, isShow, setVisible }) {
             <TextareaAutosize
               minRows={3}
               style={{ width: 500 }}
-              value={data.content}
+              value={data.contents}
             />
           </Grid>
         </Grid>
@@ -78,10 +78,10 @@ export default function ReviewDetail({ data, isShow, setVisible }) {
 
 ReviewWrite.defaultProps = {
   data: {
-    stationName: '',
-    content: '',
-    rating: 5,
-    userName: '',
+    stationId: '',
+    contents: '',
+    starPoint: 5,
+    reviewerId: '',
     registDate: '',
   },
 };

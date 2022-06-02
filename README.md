@@ -19,7 +19,7 @@
 
 # 라이브러리
 
-~~- `npm install react-redux` : redux상태관리 설치~~ (redux -> zustand로 변경)
+- ~~`-npm install react-redux` : redux상태관리 설치~~ (redux -> zustand로 변경)
 - `npm install react-google-login --force` : google login react버전 안맞아서 강제 설치
 - `yarn add @mui/x-date-pickers` : date picker 설치
 

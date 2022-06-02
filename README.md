@@ -2,24 +2,20 @@
 
 ![](https://git.hrd.cloudzcp.net/attachments/bbc0f57c-e967-49eb-a3ea-87d325587b69)
 
-# 폴더 구조
 
-![](https://git.hrd.cloudzcp.net/attachments/f4c81225-995c-4eb9-89f4-dd6a8d7c82ef)
 
-1. `contents.js` : 화면 중앙에 바뀌는 주요 도메인(계속 바뀌는 화면)
-   contents내부 Route를 통해서 해당 화면으로 컴포넌트 교체(화면 전환)
-2. `main.js` : Top/Side/Content 구분하여 구조화(따로 수정x)
-3. `side.js` : 좌측 사이드메뉴창
-4. `top.js` : 상단 메뉴창(고정)
-5. `pages폴더` : 각 서비스별로 개인 FE폴더 생성
-6. `style.js` : 디자인 설정
+# 프로젝트 시작전 확인사항
 
+- `npm -v` : npm설치 여부 확인 (npm명령어 = node.js설치 필요)
+- 
 # 프로젝트 시작하기
 
 - `git clone {https 주소}` : git주소에서 EV POWER GUARD 소스 가져오기
 - `cd EVPOWERGUARD-FE` : 터미널에서 해당 폴더로 이동
 - `npm install` : react환경 구성을 위한 npm 설치
 - `npm start` : react 웹 시작
+
+
 
 # 라이브러리
 
@@ -51,6 +47,21 @@ Browser에서 직접 사용하는 standalone 방식의 경우, Windows객체에 
  naveridlogin sdk를 nopolyfill sdfk로 변경함.
   "https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js";->   'https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2-nopolyfill.js';
 ```
+
+
+# 폴더 구조
+
+![](https://git.hrd.cloudzcp.net/attachments/f4c81225-995c-4eb9-89f4-dd6a8d7c82ef)
+
+1. `contents.js` : 화면 중앙에 바뀌는 주요 도메인(계속 바뀌는 화면)
+   contents내부 Route를 통해서 해당 화면으로 컴포넌트 교체(화면 전환)
+2. `main.js` : Top/Side/Content 구분하여 구조화(따로 수정x)
+3. `side.js` : 좌측 사이드메뉴창
+4. `top.js` : 상단 메뉴창(고정)
+5. `pages폴더` : 각 서비스별로 개인 FE폴더 생성
+6. `style.js` : 디자인 설정
+
+
 
 # YOON님 작성
 

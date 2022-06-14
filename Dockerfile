@@ -1,10 +1,10 @@
-FROM node:15-alpine
+FROM node:16-alpine
 WORKDIR /app
 COPY package*.json ./
 COPY yarn*.* ./
 RUN yarn install
  
-FROM node:15-alpine
+FROM node:16-alpine
 WORKDIR /app
 COPY --from=0 /app/ .
 COPY ./ .

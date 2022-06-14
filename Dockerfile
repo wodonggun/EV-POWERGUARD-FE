@@ -1,7 +1,7 @@
 FROM node:15-alpine
 WORKDIR /app
 COPY package*.json ./
-COPY yarn*.json ./
+COPY yarn*.* ./
 RUN yarn install
  
 FROM node:15-alpine

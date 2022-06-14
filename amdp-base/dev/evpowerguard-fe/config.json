@@ -1,0 +1,7 @@
+{
+    "dev": {
+        "config_id": "dev",
+        "app_name": "evpowerguard-fe",
+        "node_port": "80"
+    }
+}

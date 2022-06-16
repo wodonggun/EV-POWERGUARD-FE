@@ -91,7 +91,7 @@ const columns = [
     field: 'logniId',
     headerName: '작성자',
     type: 'string',
-    visible: false
+    visible: 'false'
   },
   // {
   //   field: 'registDate',

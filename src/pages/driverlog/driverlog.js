@@ -87,12 +87,6 @@ const columns = [
       </Button>
     ),
   },
-  {
-    field: 'logniId',
-    headerName: '작성자',
-    type: 'string',
-    visible: 'false'
-  },
   // {
   //   field: 'registDate',
   //   headerName: '작성일',

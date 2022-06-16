@@ -81,11 +81,17 @@ const columns = [
     field: 'electronicEfficiency',
     headerName: '전비',
     type: 'number',
+    renderCell: (params) => (
+      <Button variant="contained" size="small">
+        전비계산
+      </Button>
+    ),
   },
   {
     field: 'logniId',
     headerName: '작성자',
     type: 'string',
+    visible: false
   },
   // {
   //   field: 'registDate',

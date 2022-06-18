@@ -50,14 +50,13 @@ const columns = [
   },
   {
     field: 'chargeAmount',
-    headerName: '충전 전력양',
+    headerName: '충전 전력양(kWh)',
     type: 'number',
   },
   {
     field: 'chargeFee',
-    headerName: '충전요금',
+    headerName: '충전요금(원)',
     type: 'number',
-    width: 200,
   },
   // {
   //   field: 'starPoint',
@@ -69,17 +68,18 @@ const columns = [
   // },
   {
     field: 'nowMileage',
-    headerName: '현재 키로수',
+    headerName: '현재 키로수(km)',
     type: 'number',
   },
   {
     field: 'memo',
     headerName: '메모',
+    width: 280,
     type: 'string',
   },
   {
     field: 'electronicEfficiency',
-    headerName: '전비',
+    headerName: '전비(km/kWh)',
     type: 'number',
     renderCell: (params) => (
       <Button variant="contained" size="small">
@@ -108,24 +108,25 @@ function DriverLog() {
   } = useStoreDriverLog((state) => state);
   const [date, setDate] = useState(new Date());
   const selectedRow = useRef({
-    stationId: '',
-    contents: '',
-    starPoint: 5,
-    reviewerId: '',
-    registDate: '',
+    id: '',
+    loginId: '',
   });
   const handleClickContent = useCallback((params, event) => {
-    if (params.field === 'contents') {
+    if (params.field === 'electronicEfficiency') {
+      console.log('안녕');
+      setVisible('writing', true);
+    }else {
       selectedRow.current = params.row;
       setVisible('detail', true);
+      console.log('컨텐츠');
     }
   }, []);
   const handleClickWriteDriverLog = useCallback((params, event) => {
     setVisible('list', true);
   });
   const handleClickGetMyDriverLog = useCallback((params, event) => {
-    //const res = api.get('/driverlogs', { id: 'id' });
-    const res = api.get('/driverlogs', { reviewerId: 'user01' });
+    const res = api.get('api/driverlogs', { id: 'id' });
+    //const res = api.get('/driverlogs', { reviewerId: 'user01' });
     if (res.status === 200 || res.status === 302) {
       setDriverLogList();
     }

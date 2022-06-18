@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const baseConfig = {
   // local port
-  //baseURL: window.location.origin.replace(window.location.port, 8081),
+  baseURL: window.location.origin.replace(window.location.port, 8081),
   // cloud port
-  baseURL: window.location.origin.replace(window.location.port, 80),
+  //baseURL: window.location.origin.replace(window.location.port, 80),
 };
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {

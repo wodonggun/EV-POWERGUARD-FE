@@ -41,7 +41,7 @@ export default function DriverLogDetail({ data, isShow, setVisible }) {
           </Grid>
           <Grid item xs>
             <Typography variant="subtitle1" readOnly>
-              {data.reviewerId}
+              {data.loginId}
             </Typography>
           </Grid>
         </Grid>
@@ -81,7 +81,7 @@ DriverLogWrite.defaultProps = {
     stationId: '',
     memo: '',
     starPoint: 5,
-    reviewerId: '',
+    loginId: '',
     registDate: '',
   },
 };

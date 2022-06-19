@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  Box,
   Grid,
   Typography,
   TextareaAutosize,

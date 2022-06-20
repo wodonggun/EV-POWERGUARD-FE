@@ -13,6 +13,12 @@ function Side() {
   /* 메뉴 추가 */
   const itemList = [
     {
+      icon: EditLocationAltIcon,
+      url: '/station',
+      name: 'Station',
+      handleClick: handleListItemClick,
+    },
+    {
       icon: RateReviewIcon,
       url: '/review',
       name: 'Review',

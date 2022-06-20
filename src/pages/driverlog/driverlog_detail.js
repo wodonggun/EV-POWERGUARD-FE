@@ -26,8 +26,7 @@ export default function DriverLogDetail({ data, isShow, setVisible }) {
   const handleDelete = () => {
     console.log(data.id);
     console.log(data.memo);
-    let id = data.id;
-    api.delete('/api/driverlogs/${id}');
+    api.delete('/api/driverlogs/{id}', { id: 'id' });
   };
   const handleSave = () => {};
 
@@ -57,14 +56,14 @@ export default function DriverLogDetail({ data, isShow, setVisible }) {
             <Typography variant="subtitle1">충전일자</Typography>
           </Grid>
           <Grid item xs>
-            <Typography variant="subtitle1" readOnly>              
+            <Typography variant="subtitle1" readOnly>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   inputFormat="yyyy-MM-dd"
                   value={date}
                   onChange={handleChangeDate}
                   renderInput={(params) => <TextField {...params} />}
-                />              
+                />
               </LocalizationProvider>
             </Typography>
           </Grid>
@@ -115,9 +114,9 @@ export default function DriverLogDetail({ data, isShow, setVisible }) {
           <Grid item xs>
             <Typography variant="subtitle1">충전 요금</Typography>
           </Grid>
-          <Grid item xs>            
+          <Grid item xs>
              <TextareaAutosize
-                id="chargeFee"                            
+                id="chargeFee"
                 style={{ width: 90 }}
                 value={data.chargeFee}
               /> 원
@@ -125,7 +124,7 @@ export default function DriverLogDetail({ data, isShow, setVisible }) {
         </Grid>
 
         {/* 네번째 행 */}
-        <Grid container sx={{ padding: '10px 0' }}>        
+        <Grid container sx={{ padding: '10px 0' }}>
           <Grid item xs={1}>
             <Typography variant="subtitle1">메모</Typography>
           </Grid>

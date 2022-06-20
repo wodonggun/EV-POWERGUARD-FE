@@ -1,6 +1,7 @@
 import React from 'react';
 import { List } from '@mui/material';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import DriverLogIcon from '@mui/icons-material/ElectricCar';
 import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
 import { MenuItem } from '../components/list_item';
 
@@ -13,9 +14,21 @@ function Side() {
   /* 메뉴 추가 */
   const itemList = [
     {
+      icon: EditLocationAltIcon,
+      url: '/station',
+      name: 'Station',
+      handleClick: handleListItemClick,
+    },
+    {
       icon: RateReviewIcon,
       url: '/review',
       name: 'Review',
+      handleClick: handleListItemClick,
+    },
+    {
+      icon: DriverLogIcon,
+      url: '/driverlog',
+      name: 'DriverLog',
       handleClick: handleListItemClick,
     },
     {

@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  Box,
   Grid,
   Typography,
   TextareaAutosize,
@@ -14,34 +13,19 @@ import {
 } from '@mui/material';
 
 import api from '../../api';
-import { useStoreReview } from '../../stores';
 
-export default function ReviewWrite({ data, isShow, setVisible }) {
-  const { setReviewList } = useStoreReview((state) => state);
+export default function DriverLogWrite({ data, isShow, setVisible }) {
   const [rating, setRating] = useState(5);
   const contentRef = useRef(null);
   const handleClose = (event) => {
     setVisible('writing', false);
   };
-  const handleSave = async () => {
+  const handleSave = (e) => {
     console.log(rating);
     console.log(contentRef.current.value);
     console.log(data.stationId);
 
-    const res = await api.post('/api/review/regist', {
-      reviewerId: 'user01',
-      // reviewerId; window.sessionStorage.getItem("id");
-      stationId: data.stationId,
-      rating: rating,
-      content: contentRef.current.value,
-    });
-
-    const listRes = await api.get('/api/review');
-    if (listRes.status === 200 || listRes.status === 302) {
-      setReviewList(res.data);
-    }
-
-    return listRes;
+    // api.post('/registReview', {stationId: data.stationId, rating: rating, content: contentRef})
   };
   const handleChangeRating = useCallback(
     (event, newValue) => setRating(newValue),

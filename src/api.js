@@ -18,9 +18,14 @@ const GET = async (url, config = {}, sFunc, fFunc) => {
   }
 };
 
-const POST = async (url, config, sFunc, fFunc) => {
+const POST = async (url, data, config, sFunc, fFunc) => {
   try {
-    const response = await axios.post(url, config);
+    console.log(baseConfig.baseURL);
+    const response = await axios.post(
+      url,
+      data,
+      Object.assign(baseConfig, config)
+    );
     if (typeof sFunc === 'function') {
       sFunc(response);
     }
@@ -32,9 +37,13 @@ const POST = async (url, config, sFunc, fFunc) => {
     return e;
   }
 };
-const PUT = async (url, config, sFunc, fFunc) => {
+const PUT = async (url, data, config, sFunc, fFunc) => {
   try {
-    const response = await axios.put(url, config);
+    const response = await axios.put(
+      url,
+      data,
+      Object.assign(baseConfig, config)
+    );
     if (typeof sFunc === 'function') {
       sFunc(response);
     }

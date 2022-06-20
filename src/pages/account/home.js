@@ -1,17 +1,7 @@
 import * as React from 'react';
 import { Container } from '@mui/material';
-import LoginGoogleButton from '../account/Oauth2/loginGoogle';
+import { Link } from 'react-router-dom';
 
-function SignInSide() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-}
 function Home() {
   return (
     <>
@@ -19,17 +9,23 @@ function Home() {
         <div>
           <br />
           <br />
-          <br /> [ 메인 화면 임시 테스트 ]
+          <br />[ 메인 화면 임시 테스트 ]
         </div>
         <ul>
           <li>
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/signIn">로그인화면</a>
+            <Link to="/signIn">로그인화면</Link>
           </li>
           <li>
-            <a href="/signUp">회원가입</a>
+            <Link to="/signUp">회원가입</Link>
+          </li>
+          <li>
+            <Link to="/signEdit">회원수정</Link>
+          </li>
+          <li>
+            <Link to="/loginSuccess">로그인 성공</Link>
           </li>
         </ul>
       </Container>

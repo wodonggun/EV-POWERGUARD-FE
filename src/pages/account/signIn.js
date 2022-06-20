@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,6 +19,13 @@ import LoginNaverButton from '../account/Oauth2/loginNaver';
 
 import { useEffect, useInsertionEffect } from 'react';
 import { gapi } from 'gapi-script';
+import axios from 'axios';
+
+import api from '../../api';
+import { useStoreAuth } from '../../stores';
+import { useNavigate } from 'react-router-dom';
+
+const theme = createTheme();
 
 const clientId =
   '235080019852-bi0219rldfmnd5tt5pblfvmkpsjdf9tk.apps.googleusercontent.com';
@@ -41,19 +48,11 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
-
 export default function SignInSide() {
-  useInsertionEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: '',
-      });
-    }
-    gapi.load('client:auth2', start);
-  });
+  const store = useStoreAuth();
+  const navigate = useNavigate();
 
+  //submit 버튼 실행
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -61,6 +60,29 @@ export default function SignInSide() {
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    loginRequest(data);
+  };
+
+  const loginRequest = async (props) => {
+    //Header ID정보 체크
+    if (props.get('email') === null || props.get('email') === 0) {
+      alert('ID 입력하세요');
+    }
+    if (props.get('password') === null || props.get('password') === 0) {
+      alert('비밀번호 입력하세요.');
+    }
+    const res1 = await api.get('/user2');
+    const res = await api.get('/api/users/' + props.get('email'));
+    if (res.status === 200 || res.status === 302) {
+      alert('로그인 성공');
+      console.log(res.data);
+      store.setUserProfile(res.data.email, '', '');
+      navigate('/loginSuccess');
+      console.log(res.data);
+    } else {
+      alert('로그인 실패 : ' + props.get('email') + '의 회원정보가 없습니다.');
+    }
   };
 
   return (
@@ -155,7 +177,7 @@ export default function SignInSide() {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="/signUp" variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>

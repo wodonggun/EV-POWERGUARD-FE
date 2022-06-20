@@ -6,6 +6,7 @@ import { DriverLog } from '../pages/driverlog';
 import Home from '../pages/account/home';
 import SignIn from '../pages/account/signIn';
 import SignUp from '../pages/account/signUp';
+import SignEdit from '../pages/account/signEdit';
 import LoginSuccess from '../pages/account/loginSuccess';
 
 function Content() {
@@ -19,6 +20,7 @@ function Content() {
         <Route path="/driverlog" element={<DriverLog />}></Route>
         <Route path="/signIn" element={<SignIn />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
+        <Route path="/signEdit" element={<SignEdit />}></Route>
         <Route path="/loginSuccess" element={<LoginSuccess />}></Route>
       </Routes>
     </div>

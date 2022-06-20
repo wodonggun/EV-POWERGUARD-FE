@@ -118,8 +118,9 @@ function Review() {
    * 전체 리뷰 리스트를 서버로 부터 받아 온다.
    */
   const getReviewList = async () => {
-    const res = await api.get('/api/review');
+    const res = await api.get('/api/users');
     if (res.status === 200 || res.status === 302) {
+      console.log('ㅎㅇ');
       setReviewList(res.data);
     }
 

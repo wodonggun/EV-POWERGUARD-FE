@@ -9,6 +9,7 @@ const baseConfig = {
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {
     const response = await axios.get(url, Object.assign(baseConfig, config));
+
     if (typeof sFunc === 'function') {
       sFunc(response);
     }
@@ -21,9 +22,9 @@ const GET = async (url, config = {}, sFunc, fFunc) => {
   }
 };
 
-/* 
-* 20220620 : data 파라미터 추가 by JIN
-*/
+/*
+ * 20220620 : data 파라미터 추가 by JIN
+ */
 const POST = async (url, data, config, sFunc, fFunc) => {
   try {
     //console.log(baseConfig.baseURL);
@@ -63,6 +64,22 @@ const PUT = async (url, data, config, sFunc, fFunc) => {
   }
 };
 
+//수정(patch) 추가
+const PATCH = async (url, config, sFunc, fFunc) => {
+  try {
+    const response = await axios.patch(url, config);
+    if (typeof sFunc === 'function') {
+      sFunc(response);
+    }
+    return response;
+  } catch (e) {
+    if (typeof fFunc === 'function') {
+      fFunc(e);
+    }
+    return e;
+  }
+};
+
 const DELETE = async (url, config, sFunc, fFunc) => {
   try {
     const response = await axios.delete(url, Object.assign(baseConfig, config));
@@ -79,9 +96,10 @@ const DELETE = async (url, config, sFunc, fFunc) => {
 };
 
 const api = {
-  get: GET,
-  post: POST,
-  put: PUT,
-  delete: DELETE,
+  get: GET, //조회
+  post: POST, //생성
+  put: PUT, //전체수정
+  patch: PATCH, //일부수정
+  delete: DELETE, //삭제
 };
 export default api;

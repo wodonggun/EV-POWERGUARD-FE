@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Box, Button, Grid, Stack, TextField } from '@mui/material';
-import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
+import { AddCircleOutline } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ChargerDetail from './charger_detail';

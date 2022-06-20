@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { Box, Button, Grid, Stack, TextField } from '@mui/material';
-import { AddCircleOutline } from '@mui/icons-material/AddCircleOutline';
+import { AddCircleOutline } from '@mui/icons-material';
 import StationDetail from './station_detail';
 import StationWrite from './station_writing';
 import {

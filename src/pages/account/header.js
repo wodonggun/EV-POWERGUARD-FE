@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useStoreAuth } from '../../stores';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const pages = ['로그인서비스1', '충전소서비스2', '리뷰서비스3'];
 const settings = ['Profile', 'Account', 'Logout'];
@@ -22,9 +22,16 @@ const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const navigate = useNavigate();
   // ID, 프로필사진, 로그인토큰, 유저권한
-  const { userId, userProfileImg, userToken, userMemberShip, setUserId } =
-    useStoreAuth((state) => state);
+  const {
+    userId,
+    userProfileImg,
+    userToken,
+    userMemberShip,
+    setUserId,
+    setInitialize,
+  } = useStoreAuth((state) => state);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -49,8 +56,8 @@ const Header = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -161,9 +168,11 @@ const Header = () => {
                   onClick={
                     (handleCloseUserMenu,
                     (props) => {
-                      console.log('test', props.target.innerHTML);
                       if (props.target.innerHTML === 'Logout') {
-                        document.location.href = '/signIn'; //로그아웃 메뉴 클릭시, 기본적으로 로그인 페이지로 이동.
+                        navigate('/signIn', { replace: true });
+                        useStoreAuth.setInitialize();
+                      } else if (props.target.innerHTML === 'Profile') {
+                        navigate('/signEdit', { replace: true });
                       }
                     })
                   }

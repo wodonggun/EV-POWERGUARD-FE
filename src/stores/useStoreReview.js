@@ -11,6 +11,12 @@ const useStoreReview = create(
       list: false,
       writing: false,
     },
+    myStationList: [],
+    visible: {
+      detail: false,
+      list: false,
+      writing: false,
+    },
     selectedStation: {
       stationName: '',
       content: '',
@@ -18,6 +24,7 @@ const useStoreReview = create(
       userName: '',
       registDate: '',
     },
+
     setFilterButtonEl: (value) =>
       set(
         produce((state) => {
@@ -28,6 +35,12 @@ const useStoreReview = create(
       set(
         produce((state) => {
           state.reviewList = value;
+        })
+      ),
+    setMyStationList: (value) =>
+      set(
+        produce((state) => {
+          state.myStationList = value;
         })
       ),
     setVisible: (type, value) =>

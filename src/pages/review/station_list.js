@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,17 +7,24 @@ import Dialog from '@mui/material/Dialog';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import api from '../../api';
 
-const options = [
-  // const res = await api.get('/myStationList');
-  // if (res.status === 200 || res.status === 302) {
-  //   setMyStationList(res.data);
-  // }
-  { stationId: 11111, stationName: 'supex station', rgstDate: '20220513' },
-  { stationId: 22222, stationName: 'bundang station', rgstDate: '20220512' },
-];
+import { useStoreReview } from '../../stores';
+
+// const options = myStationList;
 
 function StationList({ isShow, setVisible, onClickOk }) {
+  const { myStationList, setMyStationList } = useStoreReview((state) => state);
+
+  const getMyStationList = async () => {
+    const res = await api.get('/api/review/myStation/user01');
+    console.log(res);
+    if (res.status === 200 || res.status === 302) {
+      setMyStationList(res.data);
+    }
+    return res;
+  };
+
   const radioGroupRef = React.useRef(null);
   const stationRef = React.useRef({});
 
@@ -45,6 +52,10 @@ function StationList({ isShow, setVisible, onClickOk }) {
     onClickOk(true, stationRef.current);
   };
 
+  useEffect(() => {
+    getMyStationList();
+  }, []);
+
   return (
     <Dialog
       sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
@@ -60,7 +71,7 @@ function StationList({ isShow, setVisible, onClickOk }) {
           name="stations"
           onChange={handleChange}
         >
-          {options.map(({ stationId, stationName, rgstDate }) => (
+          {myStationList.map(({ stationId, stationName, rgstDate }) => (
             <FormControlLabel
               value={stationName}
               key={stationId}

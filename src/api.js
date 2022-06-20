@@ -20,7 +20,7 @@ const GET = async (url, config = {}, sFunc, fFunc) => {
 
 const POST = async (url, config, sFunc, fFunc) => {
   try {
-    const response = await axios.post(url, config);
+    const response = await axios.post(url, Object.assign(baseConfig, config));
     if (typeof sFunc === 'function') {
       sFunc(response);
     }

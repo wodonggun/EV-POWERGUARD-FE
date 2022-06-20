@@ -27,6 +27,7 @@ const CustomToolbar = ({ setFilterButtonEl }) => (
     <GridToolbarFilterButton ref={setFilterButtonEl} />
   </GridToolbarContainer>
 );
+
 const columns = [
   {
     field: 'id',
@@ -94,7 +95,7 @@ function Review() {
     setVisible('list', true);
   });
   const handleClickGetMyReview = useCallback((params, event) => {
-    const res = api.get('/myReview', { reviewerId: 'user01' });
+    const res = api.get('/api/myReview', { reviewerId: 'user01' });
     if (res.status === 200 || res.status === 302) {
       setReviewList();
     }
@@ -184,6 +185,7 @@ function Review() {
           onCellClick={handleClickContent}
         />
       </div>
+
       <ReviewDetail
         isShow={visible['detail']}
         data={selectedRow.current}

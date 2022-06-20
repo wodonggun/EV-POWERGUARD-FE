@@ -2,16 +2,10 @@ import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import produce from 'immer';
 
-const useStoreReview = create(
+const useStoreDriverLog = create(
   devtools((set) => ({
     filterButtonEl: null,
-    reviewList: [],
-    visible: {
-      detail: false,
-      list: false,
-      writing: false,
-    },
-    myStationList: [],
+    driverLogList: [],
     visible: {
       detail: false,
       list: false,
@@ -24,23 +18,16 @@ const useStoreReview = create(
       userName: '',
       registDate: '',
     },
-
     setFilterButtonEl: (value) =>
       set(
         produce((state) => {
           state.filterButtonEl = value;
         })
       ),
-    setReviewList: (value) =>
+    setDriverLogList: (value) =>
       set(
         produce((state) => {
-          state.reviewList = value;
-        })
-      ),
-    setMyStationList: (value) =>
-      set(
-        produce((state) => {
-          state.myStationList = value;
+          state.driverLogList = value;
         })
       ),
     setVisible: (type, value) =>
@@ -58,4 +45,4 @@ const useStoreReview = create(
   }))
 );
 
-export default useStoreReview;
+export default useStoreDriverLog;

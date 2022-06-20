@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const baseConfig = {
+  // local port
   baseURL: window.location.origin.replace(window.location.port, 8081),
+  // cloud port
+  //baseURL: window.location.origin.replace(window.location.port, 80),
 };
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {
@@ -18,14 +21,18 @@ const GET = async (url, config = {}, sFunc, fFunc) => {
   }
 };
 
+/* 
+* 20220620 : data 파라미터 추가 by JIN
+*/
 const POST = async (url, data, config, sFunc, fFunc) => {
   try {
-    console.log(baseConfig.baseURL);
+    //console.log(baseConfig.baseURL);
     const response = await axios.post(
       url,
       data,
       Object.assign(baseConfig, config)
     );
+    //const response = await axios.post(url, Object.assign(baseConfig, config));
     if (typeof sFunc === 'function') {
       sFunc(response);
     }

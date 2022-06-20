@@ -26,7 +26,7 @@ export default function DriverLogDetail({ data, isShow, setVisible }) {
   const handleDelete = () => {
     console.log(data.id);
     console.log(data.memo);
-    api.delete('/api/driverlogs/{id}', { id: 'id' });
+    api.delete('/api/driverlogs', { id: data.id });
   };
   const handleSave = () => {};
 

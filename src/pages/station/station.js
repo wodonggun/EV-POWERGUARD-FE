@@ -155,7 +155,8 @@ function Station() {
   const getStationList = async () => {
     console.log('getStationList ====== 1');
     const res = await api.get('api/stations?size=' + page.size);
-    console.log('getStationList ====== 2 : ' + res.status);
+    console.log('getStationList ====== 2 1: ' + res);
+    console.log('getStationList ====== 2 2: ' + res.status);
     if (res.status === 200 || res.status === 302) {
       console.log('getStationList ====== 3');
       setStationList(res.data);

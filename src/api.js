@@ -2,13 +2,18 @@ import axios from 'axios';
 
 const baseConfig = {
   // local port
-  //baseURL: window.location.origin.replace(window.location.port, 8081),
+  baseURL: window.location.origin.replace(window.location.port, 8081),
   // cloud port
-  baseURL: window.location.origin.replace(window.location.port, 80),
+  //baseURL: window.location.origin.replace(window.location.port, 80),
 };
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {
+    console.log(
+      'async get ========= url : ' + url + '/baseConfig' + baseConfig.baseURL
+    );
     const response = await axios.get(url, Object.assign(baseConfig, config));
+    console.log('async get ========= response 1 : ' + response);
+    console.log('async get ========= response.code 2 : ' + response.code);
 
     if (typeof sFunc === 'function') {
       sFunc(response);
@@ -18,6 +23,7 @@ const GET = async (url, config = {}, sFunc, fFunc) => {
     if (typeof fFunc === 'function') {
       fFunc(e);
     }
+    console.log('async get ========= catch 2 : ' + e);
     return e;
   }
 };

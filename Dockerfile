@@ -2,7 +2,7 @@ FROM node:16-alpine
 WORKDIR /app
 COPY package*.json ./
 COPY yarn*.* ./
-RUN yarn install
+RUN yarn install --network-timeout 600000
  
 FROM node:16-alpine
 WORKDIR /app

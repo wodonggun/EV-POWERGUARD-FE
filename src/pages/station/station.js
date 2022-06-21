@@ -153,17 +153,22 @@ function Station() {
    * 전체 리스트를 서버로 부터 받아 온다.
    */
   const getStationList = async () => {
+    console.log('getStationList ====== 1');
     const res = await api.get('api/stations?size=' + page.size);
+    console.log('getStationList ====== 2 : ' + res.status);
     if (res.status === 200 || res.status === 302) {
+      console.log('getStationList ====== 3');
       setStationList(res.data);
     }
-
+    console.log('getStationList ====== 4');
     return res;
   };
 
   useEffect(() => {
     // component 가 랜더링 될 때 실행되는 함수
+    console.log('useEffect ====== 1');
     getStationList();
+    console.log('useEffect ====== 2');
   }, []);
   return (
     <Box

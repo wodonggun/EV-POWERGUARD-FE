@@ -4,7 +4,7 @@ const baseConfig = {
   // local port
   //baseURL: window.location.origin.replace(window.location.port, 8081),
   // cloud port
-  baseURL: 'http://ev.hrd-edu.cloudzcp.com',
+  baseURL: window.location.origin,
 };
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {

@@ -16,37 +16,48 @@ import {
 import api from '../../api';
 import { useStoreReview } from '../../stores';
 
-export default function ReviewWrite({ data, isShow, setVisible }) {
+export default function ReviewWrite({
+  data,
+  isShow,
+  setVisible,
+  getReviewList,
+}) {
   const { setReviewList } = useStoreReview((state) => state);
-  const [rating, setRating] = useState(5);
+  const [starPoint, setStarPoint] = useState(5);
   const contentRef = useRef(null);
+  const handleChangeStarPoint = useCallback(
+    (event, newValue) => setStarPoint(newValue),
+    []
+  );
+
   const handleClose = (event) => {
     setVisible('writing', false);
   };
   const handleSave = async () => {
-    console.log(rating);
+    console.log(starPoint);
     console.log(contentRef.current.value);
     console.log(data.stationId);
+    console.log(data.stationName);
 
-    const res = await api.post('/api/review/regist', {
-      reviewerId: 'user01',
-      // reviewerId; window.sessionStorage.getItem("id");
-      stationId: data.stationId,
-      rating: rating,
-      content: contentRef.current.value,
-    });
-
-    const listRes = await api.get('/api/review');
-    if (listRes.status === 200 || listRes.status === 302) {
-      setReviewList(res.data);
-    }
-
-    return listRes;
+    const res = await api.post(
+      '/api/review/regist',
+      {
+        reviewerId: 'user01',
+        // reviewerId; window.sessionStorage.getItem("id");
+        stationId: data.stationId,
+        stationName: data.stationName,
+        starPoint: starPoint,
+        contents: contentRef.current.value,
+      },
+      handleCloseDialog
+    );
   };
-  const handleChangeRating = useCallback(
-    (event, newValue) => setRating(newValue),
-    []
-  );
+
+  const handleCloseDialog = () => {
+    getReviewList();
+    handleClose();
+  };
+
   return (
     <Dialog open={isShow} onClose={handleClose}>
       <DialogTitle>리뷰 작성</DialogTitle>
@@ -71,16 +82,16 @@ export default function ReviewWrite({ data, isShow, setVisible }) {
           </Grid>
           <Grid item xs={3}>
             <Rating
-              name="rating"
-              value={rating}
+              name="starPoint"
+              value={starPoint}
               defaultValue={5}
               precision={1}
-              onChange={handleChangeRating}
+              onChange={handleChangeStarPoint}
             />
           </Grid>
           <CssBaseline></CssBaseline>
           <Grid item xs>
-            <Typography variant="subtitle1">{rating}</Typography>
+            <Typography variant="subtitle1">{starPoint}</Typography>
           </Grid>
         </Grid>
         <Grid container direction="row" sx={{ padding: '10px 0' }}>

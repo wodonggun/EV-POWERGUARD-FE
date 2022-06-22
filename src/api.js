@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-const baseConfig = {
-  baseURL: window.location.origin.replace(window.location.port, 8081),
-};
+const baseConfig = {};
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {
     const response = await axios.get(url, Object.assign(baseConfig, config));

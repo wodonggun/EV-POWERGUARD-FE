@@ -37,6 +37,12 @@ function Side() {
       name: 'MyStation',
       handleClick: handleListItemClick,
     },
+    {
+      icon: EditLocationAltIcon,
+      url: '/breakdown',
+      name: 'Breakdown',
+      handleClick: handleListItemClick,
+    },
   ];
   return (
     <List>

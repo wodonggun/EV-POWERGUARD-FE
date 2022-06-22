@@ -17,7 +17,7 @@ const CustomToolbar = ({ setFilterButtonEl }) => (
 );
 const columns = [
   {
-    field: 'idx',
+    field: 'id',
     headerName: '순서',
     type: 'string',
     width: 100,

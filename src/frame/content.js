@@ -8,6 +8,7 @@ import SignIn from '../pages/account/signIn';
 import SignUp from '../pages/account/signUp';
 import SignEdit from '../pages/account/signEdit';
 import LoginSuccess from '../pages/account/loginSuccess';
+import { Breakdown } from '../pages/breakdown';
 
 function Content() {
   return (
@@ -22,6 +23,7 @@ function Content() {
         <Route path="/signUp" element={<SignUp />}></Route>
         <Route path="/signEdit" element={<SignEdit />}></Route>
         <Route path="/loginSuccess" element={<LoginSuccess />}></Route>
+        <Route path="/breakdown" element={<Breakdown />}></Route>
       </Routes>
     </div>
   );

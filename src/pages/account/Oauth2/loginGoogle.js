@@ -7,7 +7,7 @@ const clientId =
 
 function Login({ onGoogleLogin }) {
   const store = useStoreAuth();
-
+  let sessionStorage = window.sessionStorage;
   const onSuccess = async (res) => {
     console.log('성공');
     var profile = res.getBasicProfile();
@@ -17,6 +17,9 @@ function Login({ onGoogleLogin }) {
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     store.setUserProfile(profile.getEmail(), profile.getImageUrl(), '');
+
+    sessionStorage.setItem('userId', profile.getEmail());
+    sessionStorage.setItem('userProfileImg', profile.getImageUrl());
   };
 
   const onFailure = (res) => {

@@ -15,7 +15,9 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useStoreAuth } from '../../stores';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-const pages = ['로그인서비스1', '충전소서비스2', '리뷰서비스3'];
+import LogOut from '../../pages/account/logOut';
+
+const pages = ['로그인', '뭘넣지1', '뭘넣지2', '뭘넣지3'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 const Header = () => {
@@ -23,6 +25,8 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const navigate = useNavigate();
+  let sessionStorage = window.sessionStorage;
+
   // ID, 프로필사진, 로그인토큰, 유저권한
   const {
     userId,
@@ -30,6 +34,7 @@ const Header = () => {
     userToken,
     userMemberShip,
     setUserId,
+    setUserProfileImg,
     setInitialize,
   } = useStoreAuth((state) => state);
 
@@ -40,13 +45,32 @@ const Header = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (props) => {
+    if (props === '로그인') {
+      navigate('/signIn');
+    } else if (props === '') {
+      navigate('');
+    }
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = (props) => {
     setAnchorElUser(props.key);
   };
+
+  let loginId = sessionStorage.getItem('userId');
+  if (loginId !== null || loginId !== '') {
+    setUserId(loginId);
+  }
+
+  let loginImg = sessionStorage.getItem('userProfileImg');
+  if (loginImg !== null || loginImg !== '') {
+    setUserProfileImg(loginImg);
+  }
+
+  React.useEffect(() => {
+    // component 가 랜더링 될 때 실행되는 함수
+  }, []);
 
   return (
     <AppBar position="static">
@@ -100,11 +124,19 @@ const Header = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page) => {
+                return (
+                  <MenuItem
+                    key={page}
+                    onClick={() => {
+                      console.log(page);
+                      return handleCloseNavMenu(page);
+                    }}
+                  >
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -124,13 +156,15 @@ const Header = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            EV-POWER_GUARD 모바일
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {
+                  return handleCloseNavMenu(page);
+                }}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -170,6 +204,7 @@ const Header = () => {
                     (props) => {
                       if (props.target.innerHTML === 'Logout') {
                         navigate('/signIn', { replace: true });
+                        LogOut();
                         useStoreAuth.setInitialize();
                       } else if (props.target.innerHTML === 'Profile') {
                         navigate('/signEdit', { replace: true });

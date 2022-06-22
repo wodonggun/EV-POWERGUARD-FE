@@ -51,6 +51,7 @@ function Copyright(props) {
 export default function SignInSide() {
   const store = useStoreAuth();
   const navigate = useNavigate();
+  let sessionStorage = window.sessionStorage;
 
   //submit 버튼 실행
   const handleSubmit = (event) => {
@@ -72,13 +73,20 @@ export default function SignInSide() {
     if (props.get('password') === null || props.get('password') === 0) {
       alert('비밀번호 입력하세요.');
     }
-    const res1 = await api.get('/user2');
-    const res = await api.get('/api/users/' + props.get('email'));
+
+    //const res = await api.get('/api/users/' + props.get('email'));
+    const res = await api.get(
+      'http://localhost:8080/api/users/' + props.get('email')
+    );
     if (res.status === 200 || res.status === 302) {
       alert('로그인 성공');
       console.log(res.data);
       store.setUserProfile(res.data.email, '', '');
-      navigate('/loginSuccess');
+      sessionStorage.setItem('userId', res.data.email);
+      //sessionStorage.setItem('userProfileImg', '');
+      sessionStorage.setItem('userToken', res.data);
+
+      navigate('/station');
       console.log(res.data);
     } else {
       alert('로그인 실패 : ' + props.get('email') + '의 회원정보가 없습니다.');

@@ -7,7 +7,6 @@ import Home from '../pages/account/home';
 import SignIn from '../pages/account/signIn';
 import SignUp from '../pages/account/signUp';
 import SignEdit from '../pages/account/signEdit';
-import LoginSuccess from '../pages/account/loginSuccess';
 
 function Content() {
   return (
@@ -21,7 +20,7 @@ function Content() {
         <Route path="/signIn" element={<SignIn />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
         <Route path="/signEdit" element={<SignEdit />}></Route>
-        <Route path="/loginSuccess" element={<LoginSuccess />}></Route>
+        <Route path="/home" element={<Home />}></Route>
       </Routes>
     </div>
   );

@@ -9,7 +9,7 @@ function Home() {
         <div>
           <br />
           <br />
-          <br />[ 메인 화면 임시 테스트 ]
+          <br />[ 메인 화면 미정 ]
         </div>
         <ul>
           <li>
@@ -23,9 +23,6 @@ function Home() {
           </li>
           <li>
             <Link to="/signEdit">회원수정</Link>
-          </li>
-          <li>
-            <Link to="/loginSuccess">로그인 성공</Link>
           </li>
         </ul>
       </Container>

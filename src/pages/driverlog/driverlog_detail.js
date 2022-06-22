@@ -18,16 +18,18 @@ import {
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-export default function DriverLogDetail({ data, isShow, setVisible }) {
+export default function DriverLogDetail({ data, isShow, setVisible,
+  reloadList, }) {
   const handleClose = () => {
     setVisible('detail', false);
   };
 
   const handleDelete = () => {
     console.log(data.id);
-    console.log(data.memo);
-    api.delete('/api/driverlogs', { id: data.id });
+    api.delete('/api/driverlogs/' + data.id, null, handleRefReload);
+    reloadList();
   };
+
   const handleSave = () => {};
 
   //Data Picker 변수
@@ -37,6 +39,11 @@ export default function DriverLogDetail({ data, isShow, setVisible }) {
     //
     setDate(date);
   });
+
+  const handleRefReload = (event) => {
+    setVisible('detail', false);
+    reloadList();
+  };
 
   return (
     <Dialog open={isShow} onClose={handleClose}>

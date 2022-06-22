@@ -16,11 +16,15 @@ const CustomToolbar = ({ setFilterButtonEl }) => (
   </GridToolbarContainer>
 );
 const columns = [
-  // {
-  //   field: 'id',
-  //   headerName: 'ID',
-  //   type: 'string',
-  // },
+  {
+    field: 'idx',
+    headerName: '순서',
+    type: 'string',
+    width: 100,
+    headerClassName: 'super-app-theme--header',
+    headerAlign: 'center',
+    renderCell: (params) => <span>{params.id}</span>,
+  },
   {
     field: 'chargeDate',
     headerName: '이용일자',
@@ -95,7 +99,7 @@ function DriverLog() {
     setVisible,
     setSelectedStation,
   } = useStoreDriverLog((state) => state);
-  
+
   const selectedRow = useRef({
     id: '',
     loginId: '',
@@ -187,6 +191,7 @@ function DriverLog() {
         isShow={visible['detail']}
         data={selectedRow.current}
         setVisible={setVisible}
+        reloadList={getDriverLogList}
       />
       <StationList
         isShow={visible['list']}
@@ -197,6 +202,7 @@ function DriverLog() {
         isShow={visible['writing']}
         data={selectedStation}
         setVisible={setVisible}
+        reloadList={getDriverLogList}
       />
     </Box>
   );

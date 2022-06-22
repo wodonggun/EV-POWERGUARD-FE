@@ -1,11 +1,6 @@
 import axios from 'axios';
 
-const baseConfig = {
-  // local port
-  //baseURL: window.location.origin.replace(window.location.port, 8081),
-  // cloud port
-  baseURL: window.location.origin,
-};
+const baseConfig = {};
 const GET = async (url, config = {}, sFunc, fFunc) => {
   try {
     console.log(

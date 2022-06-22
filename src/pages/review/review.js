@@ -35,7 +35,7 @@ const columns = [
     type: 'string',
   },
   {
-    field: 'stationId',
+    field: 'stationName',
     headerName: '충전소명',
     type: 'string',
   },
@@ -95,20 +95,23 @@ function Review() {
     setVisible('list', true);
   });
   const handleClickGetMyReview = useCallback((params, event) => {
-    const res = api.get('/api/myReview', { reviewerId: 'user01' });
-    if (res.status === 200 || res.status === 302) {
-      setReviewList();
-    }
+    const res = api.get('/api/review/', { reviewerId: 'user01' });
+    //console.log(res);
+    //if (res.status === 200 || res.status === 302) {
+    console.log(res.status);
+
+    //}
   });
+
   /**
    * picker가 변경되면 핸들러에 변경된 date 값이 넘어 옵니다.
    * picker에 현재 설정된 값은 state date를 참조 하면 됩니다.
-   */
+   
   const handleChangeDate = useCallback((date) => {
     //
     setDate(date);
   });
-
+*/
   const handleSelectStation = useCallback((visible, stationData) => {
     setSelectedStation(stationData);
     setVisible('writing', visible);
@@ -148,21 +151,6 @@ function Review() {
         <h2>리뷰 조회</h2>
         <Button onClick={handleClickWriteReview}>새 리뷰 작성</Button>
         <Button onClick={handleClickGetMyReview}>나의 리뷰 보기</Button>
-
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label="date picker example"
-            value={date}
-            onChange={handleChangeDate}
-            renderInput={(params) => <TextField {...params} />}
-          />
-          <TimePicker
-            renderInput={(props) => <TextField {...props} />}
-            label="time picker example"
-            value={date}
-            onChange={handleChangeDate}
-          />
-        </LocalizationProvider>
       </div>
       <div style={{ height: 500, width: '100%' }}>
         <DataGrid
@@ -191,6 +179,7 @@ function Review() {
         isShow={visible['detail']}
         data={selectedRow.current}
         setVisible={setVisible}
+        getReviewList={getReviewList}
       />
       <StationList
         isShow={visible['list']}
@@ -201,6 +190,7 @@ function Review() {
         isShow={visible['writing']}
         data={selectedStation}
         setVisible={setVisible}
+        getReviewList={getReviewList}
       />
     </Box>
   );

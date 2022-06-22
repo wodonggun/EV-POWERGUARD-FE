@@ -11,17 +11,15 @@ import api from '../../api';
 
 import { useStoreReview } from '../../stores';
 
-// const options = myStationList;
-
 function StationList({ isShow, setVisible, onClickOk }) {
   const { myStationList, setMyStationList } = useStoreReview((state) => state);
 
   const getMyStationList = async () => {
-    const res = await api.get('/api/review/myStation/user01');
+    const res = await api.get('/api/myStation/1000');
     console.log(res);
-    if (res.status === 200 || res.status === 302) {
-      setMyStationList(res.data);
-    }
+    //if (res.status === 200 || res.status === 302) {
+    setMyStationList(res.data);
+    //}
     return res;
   };
 

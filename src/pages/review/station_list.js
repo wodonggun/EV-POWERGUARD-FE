@@ -52,8 +52,10 @@ function StationList({ isShow, setVisible, onClickOk }) {
   };
 
   useEffect(() => {
-    getMyStationList();
-  }, []);
+    if (isShow) {
+      getMyStationList();
+    }
+  }, [isShow]);
 
   return (
     <Dialog

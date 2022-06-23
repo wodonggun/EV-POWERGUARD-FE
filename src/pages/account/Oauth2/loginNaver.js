@@ -42,14 +42,15 @@ function LoginNaver() {
           birthday
         );
 
-        store.setUserProfile(email, profile_image, '');
-
         // 필수 제공 동의 조건
         if (email === undefined) {
           alert('이메일은 필수 동의 입니다. 정보제공을 동의해주세요.');
           naverLogin.reprompt();
           return;
         }
+
+        store.setUserProfile(email, profile_image, '');
+
         <Link to="loginSuccess"></Link>;
       } else {
         console.log('Naver 비 로그인 상태');

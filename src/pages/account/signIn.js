@@ -55,6 +55,8 @@ export default function SignInSide() {
 
   //submit 버튼 실행
   const handleSubmit = (event) => {
+    console.log('1234');
+    LoggedIn();
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -74,7 +76,6 @@ export default function SignInSide() {
       alert('비밀번호 입력하세요.');
     }
 
-    //const res = await api.get('/api/users/' + props.get('email'));
     const res = await api.get(
       'http://localhost:8080/api/users/' + props.get('email')
     );
@@ -82,7 +83,7 @@ export default function SignInSide() {
       alert('로그인 성공');
       console.log(res.data);
       store.setUserProfile(res.data.email, '', '');
-      debugger;
+
       //로그인 성공
       let loginValue = {
         id: res.data.email,
@@ -93,6 +94,7 @@ export default function SignInSide() {
         id_token: '',
         member_type: res.data.memberType,
       };
+
       LoggedIn(loginValue);
 
       navigate('/station');

@@ -17,8 +17,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import LogOut from './components/LoggedOut';
 
-const pages = ['로그인', '뭘넣지1', '뭘넣지2', '뭘넣지3'];
-const settings = ['Profile', 'Account', 'Logout'];
+const pages = ['로그인', '회원가입', '회원수정', '[이부분 나중에 지울께요]'];
+const settings = ['Profile', 'Login', 'Logout'];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState();
@@ -48,6 +48,10 @@ const Header = () => {
   const handleCloseNavMenu = (props) => {
     if (props === '로그인') {
       navigate('/signIn');
+    } else if (props === '회원가입') {
+      navigate('/signUp');
+    } else if (props === '회원수정') {
+      navigate('/signEdit');
     } else if (props === '') {
       navigate('');
     }
@@ -58,12 +62,12 @@ const Header = () => {
     setAnchorElUser(props.key);
   };
 
-  let loginId = sessionStorage.getItem('userId');
+  let loginId = sessionStorage.getItem('id');
   if (loginId !== null || loginId !== '') {
     setUserId(loginId);
   }
 
-  let loginImg = sessionStorage.getItem('userProfileImg');
+  let loginImg = sessionStorage.getItem('profile_image');
   if (loginImg !== null && loginImg !== '') {
     setUserProfileImg(loginImg);
   }
@@ -208,6 +212,8 @@ const Header = () => {
                         useStoreAuth.setInitialize();
                       } else if (props.target.innerHTML === 'Profile') {
                         navigate('/signEdit', { replace: true });
+                      } else if (props.target.innerHTML === 'Login') {
+                        navigate('/signIn', { replace: true });
                       }
                     })
                   }

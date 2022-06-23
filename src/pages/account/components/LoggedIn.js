@@ -1,4 +1,9 @@
+import { useNavigate } from 'react-router-dom';
+import { useStoreAuth } from '../../../stores';
+
 function LoggedIn(props) {
+  //const navigate = useNavigate();
+  // const store = useStoreAuth();
   /* 예시 데이터props
   let loginValue = {
     id: res.data.email,
@@ -21,7 +26,7 @@ function LoggedIn(props) {
 
   //로그인 후처리
   sessionStorage.setItem('id', userInfo.id);
-  debugger;
+
   if (userInfo.profileImg === null || userInfo.profileImg === '') {
     sessionStorage.setItem('profile_image', '/static/images/avatar/2.jpg');
   } else {
@@ -33,6 +38,12 @@ function LoggedIn(props) {
   } else {
     sessionStorage.setItem('member_type', userInfo.member_type);
   }
+
+  // store.setUserProfile(userInfo.profileImg);
+  // store.setUserId(userInfo.id);
+  //로그인 이후 페이지 이동.
+  // console.log('1234');
+  // //navigate('/station');
 
   return <></>;
 }

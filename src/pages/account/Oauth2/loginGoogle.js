@@ -1,4 +1,5 @@
 import GoogleLogin from 'react-google-login';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useStore } from 'zustand';
 import { useStoreAuth } from '../../../stores';
 import LoggedIn from '../components/LoggedIn';
@@ -8,11 +9,12 @@ const clientId =
 
 function Login({ onGoogleLogin }) {
   const store = useStoreAuth();
+  const navigate = useNavigate();
   let sessionStorage = window.sessionStorage;
+
   const onSuccess = async (res) => {
     console.log('구글 로그인 성공', res.getBasicProfile());
     console.log('구글 로그인 성공', res);
-    debugger;
 
     var profile = res.getBasicProfile();
 
@@ -27,6 +29,7 @@ function Login({ onGoogleLogin }) {
       id_token: res.tokenId,
     };
     LoggedIn(loginValue);
+    navigate('/station');
   };
 
   const onFailure = (res) => {

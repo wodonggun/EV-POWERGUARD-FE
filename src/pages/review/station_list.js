@@ -15,7 +15,7 @@ function StationList({ isShow, setVisible, onClickOk }) {
   const { myStationList, setMyStationList } = useStoreReview((state) => state);
 
   const getMyStationList = async () => {
-    const res = await api.get('/api/myStation/790901');
+    const res = await api.get('/api/review/myStation/790901');
     console.log(res);
     //if (res.status === 200 || res.status === 302) {
     setMyStationList(res.data);

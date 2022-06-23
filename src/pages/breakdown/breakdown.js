@@ -26,6 +26,7 @@ import {
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import api from '../../api';
 
+const HOME_URL = process.env.REACT_APP_HOME_URL;
 const CustomToolbar = ({ setFilterButtonEl }) => (
   <GridToolbarContainer>
     <GridToolbarFilterButton ref={setFilterButtonEl} />
@@ -164,7 +165,9 @@ function Breakdown() {
    * 전체 리뷰 리스트를 서버로 부터 받아 온다.
    */
   const getBreakdownList = async () => {
-    const res = await api.get('/api/reports');
+    const res = await api.get('/api/breakdown/reports', {
+      baseURL: HOME_URL,
+    });
     if (res.status === 200 || res.status === 302) {
       setBreakdownList(res.data);
     }
@@ -190,7 +193,7 @@ function Breakdown() {
       }}
     >
       <div style={{ alignSelf: 'self-start', paddingLeft: '20px' }}>
-        <h1>고장신고 조회</h1>
+        <h2>고장신고 조회</h2>
       </div>
       <Stack direction="row" justifyContent="flex-end" width="100%">
         <Box component="span" sx={{ p: 1 }}>
@@ -255,6 +258,7 @@ function Breakdown() {
         isShow={visible['writing']}
         data={selectedCharger}
         setVisible={setVisible}
+        refreshList={getBreakdownList}
       />
     </Box>
   );

@@ -17,9 +17,13 @@ import {
 import RenderStatusChip from './components/statusChip';
 import api from '../../api';
 
-export default function BreakdownWrite({ data, isShow, setVisible }) {
+export default function BreakdownWrite({
+  data,
+  isShow,
+  setVisible,
+  refreshList,
+}) {
   const [disabled, setDisabled] = useState(false);
-
   const [reportStatus, setReportStatus] = useState('SUBMITTED');
   const [reportDescription, setReportDescription] = useState('');
   const [reportedTime, setReportedTime] = useState();
@@ -32,8 +36,13 @@ export default function BreakdownWrite({ data, isShow, setVisible }) {
   const [reporterId, setReporterId] = useState('9999');
   const [reporterName, setReporterName] = useState('tmp-ui-user');
 
+  const REQ_PENDING = 'REQ_PENDING';
+  const REQ_SUCCESS = 'REQ_SUCCESS';
+  const REQ_FAILURE = 'REQ_FAILURE';
+
   const handleClose = (event) => {
     setVisible('writing', false);
+    refreshList();
   };
   const handleSave = async (e) => {
     setDisabled(true);
@@ -45,55 +54,49 @@ export default function BreakdownWrite({ data, isShow, setVisible }) {
     setAdminPhoneNumber('010-0080-0080');
     setReporterId('9999');
     setReporterName('tmp-ui-user');
-    const payload = JSON.stringify({
-      reportStatus: reportStatus,
-      reportDescription: reportDescription,
-      reportedTime: new Date(),
 
-      breakdownChargerId: breakdownChargerId,
-      stationId: stationId,
-      stationName: stationName,
-      location: location,
-      adminId: adminId,
-      adminPhoneNumber: adminPhoneNumber,
+    api
+      .post(
+        '/api/breakdown/reports',
+        JSON.stringify({
+          reportStatus: reportStatus,
+          reportDescription: reportDescription,
+          reportedTime: new Date(),
 
-      reporterId: reporterId,
-      reporterName: reporterName,
-    });
-    console.log(payload);
-    const promise = api.post(
-      'http://localhost:8080/api/report',
-      JSON.stringify({
-        reportStatus: reportStatus,
-        reportDescription: reportDescription,
-        reportedTime: new Date(),
+          breakdownChargerId: breakdownChargerId,
+          stationId: stationId,
+          stationName: stationName,
+          location: location,
+          adminId: adminId,
+          adminPhoneNumber: adminPhoneNumber,
 
-        breakdownChargerId: breakdownChargerId,
-        stationId: stationId,
-        stationName: stationName,
-        location: location,
-        adminId: adminId,
-        adminPhoneNumber: adminPhoneNumber,
-
-        reporterId: reporterId,
-        reporterName: reporterName,
-      }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
-    promise
+          reporterId: reporterId,
+          reporterName: reporterName,
+        }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
       .then((result) => {
+        console.log('submitReport result: ');
         console.log(result);
-        alert('고장신고 제출 완료!!');
+        if (result.status == 202) {
+          alert('이미 신고된 충전기입니다.');
+        } else if (result.status == 200) {
+          alert('고장신고 제출 완료!!');
+        } else {
+          alert('확인되지 않은 오류입니다. 다시 시도해 주세요.');
+        }
         setDisabled(false);
         handleClose();
       })
       .catch((error) => {
         alert(error.log);
         setDisabled(false);
+        throw error;
       });
   };
+
   return (
     <Dialog open={isShow} onClose={handleClose}>
       <DialogContentText

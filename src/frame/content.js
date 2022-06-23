@@ -8,6 +8,7 @@ import SignIn from '../pages/account/signIn';
 import SignUp from '../pages/account/signUp';
 import SignEdit from '../pages/account/signEdit';
 import { Breakdown } from '../pages/breakdown';
+import { Bookmark } from '../pages/bookmark';
 
 function Content() {
   return (
@@ -23,6 +24,7 @@ function Content() {
         <Route path="/signEdit" element={<SignEdit />}></Route>
         <Route path="/breakdown" element={<Breakdown />}></Route>
         <Route path="/home" element={<Home />}></Route>
+        <Route path="/bookmark" element={<Bookmark />}></Route>
       </Routes>
     </div>
   );

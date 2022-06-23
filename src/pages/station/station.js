@@ -23,6 +23,21 @@ const CustomToolbar = ({ setFilterButtonEl }) => (
   </GridToolbarContainer>
 );
 
+const renderCreateBookmarkButton = (params) => {
+  return (
+    <strong>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        style={{ marginLeft: 16 }}
+      >
+        즐겨찾기 등록
+      </Button>
+    </strong>
+  );
+};
+
 const columns = [
   {
     field: 'idx',
@@ -104,6 +119,14 @@ const columns = [
         </Button>
       </strong>
     ),
+  },
+  {
+    field: 'bookmark',
+    headerName: '즐겨찾기 등록',
+    type: 'number',
+    width: 130,
+    headerAlign: 'center',
+    renderCell: renderCreateBookmarkButton,
   },
 ];
 

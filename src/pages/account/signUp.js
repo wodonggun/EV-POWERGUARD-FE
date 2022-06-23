@@ -1,4 +1,4 @@
-import { React, useCallback, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,13 +20,15 @@ import FormLabel from '@mui/material/FormLabel';
 
 import { useStoreAuth } from '../../stores';
 import api from '../../api';
+import { useNavigate } from 'react-router-dom';
 
-const passwordMaxValue = 5; //비밀번호 최대값
+const passwordMaxValue = 20; //비밀번호 최대값
 const passwordMinValue = 5; //비밀번호 최소값
 
 const theme = createTheme();
-
 export default function SignUp() {
+  const navigate = useNavigate();
+
   const { userId, userProfileImg, userToken, userMemberShip } = useStoreAuth(
     (state) => state
   );
@@ -111,7 +113,7 @@ export default function SignUp() {
     //CREATE 성공은 201
     if (res.status === 200 || res.status === 201) {
       alert('회원가입 성공');
-      <Link to="/signIn">signIn</Link>;
+      navigate('/signIn');
       console.log(res.data);
     } else {
       alert('회원가입 실패');

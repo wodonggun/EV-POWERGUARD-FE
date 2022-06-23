@@ -118,7 +118,7 @@ export default function SignEdit() {
       navigate('/signIn');
       return;
     }
-    const res = await api.get('/api/users/' + userId);
+    const res = await api.get('http://localhost:8080/api/users/' + userId);
     if (res.status === 200 || res.status === 302) {
       console.log(res.data);
       res.data.id = userId; //ID Header에서 가져와서 data에 Json형태로 강제로 넣어줌.
@@ -222,11 +222,6 @@ export default function SignEdit() {
   };
 
   useEffect(() => {
-    if (userId === null || userId === 'GUEST' || userId.length === 0) {
-      alert('로그인을 먼저 진행해주세요.');
-      navigate('/signIn');
-      return;
-    }
     // component 가 랜더링 될 때 실행되는 함수
     getUser();
   }, []);

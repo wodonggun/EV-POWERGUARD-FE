@@ -7,7 +7,6 @@ import Home from '../pages/account/home';
 import SignIn from '../pages/account/signIn';
 import SignUp from '../pages/account/signUp';
 import SignEdit from '../pages/account/signEdit';
-import LoginSuccess from '../pages/account/loginSuccess';
 import { Breakdown } from '../pages/breakdown';
 
 function Content() {

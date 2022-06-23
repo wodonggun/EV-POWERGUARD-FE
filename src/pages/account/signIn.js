@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,13 +17,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginGoogleButton from '../account/Oauth2/loginGoogle';
 import LoginNaverButton from '../account/Oauth2/loginNaver';
 
-import { useEffect, useInsertionEffect } from 'react';
 import { gapi } from 'gapi-script';
 import axios from 'axios';
 
 import api from '../../api';
 import { useStoreAuth } from '../../stores';
 import { useNavigate } from 'react-router-dom';
+import LoggedIn from '../account/components/LoggedIn';
 
 const theme = createTheme();
 
@@ -39,7 +39,7 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://github.com/wodonggun">
+      <Link color="inherit" href="http://ev.hrd-edu.cloudzcp.com/">
         EV Power Guard
       </Link>{' '}
       {new Date().getFullYear()}
@@ -82,9 +82,18 @@ export default function SignInSide() {
       alert('로그인 성공');
       console.log(res.data);
       store.setUserProfile(res.data.email, '', '');
-      sessionStorage.setItem('userId', res.data.email);
-      //sessionStorage.setItem('userProfileImg', '');
-      sessionStorage.setItem('userToken', res.data);
+      debugger;
+      //로그인 성공
+      let loginValue = {
+        id: res.data.email,
+        id_number: '',
+        profileImg: '',
+        email: res.data.email,
+        access_token: '',
+        id_token: '',
+        member_type: res.data.memberType,
+      };
+      LoggedIn(loginValue);
 
       navigate('/station');
       console.log(res.data);

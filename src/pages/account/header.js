@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useStoreAuth } from '../../stores';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-import LogOut from '../../pages/account/logOut';
+import LogOut from './components/LoggedOut';
 
 const pages = ['로그인', '뭘넣지1', '뭘넣지2', '뭘넣지3'];
 const settings = ['Profile', 'Account', 'Logout'];
@@ -64,7 +64,7 @@ const Header = () => {
   }
 
   let loginImg = sessionStorage.getItem('userProfileImg');
-  if (loginImg !== null || loginImg !== '') {
+  if (loginImg !== null && loginImg !== '') {
     setUserProfileImg(loginImg);
   }
 

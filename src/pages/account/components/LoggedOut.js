@@ -1,4 +1,4 @@
-function LogOut() {
+function LoggedOut() {
   //로그아웃 조건 확인
 
   //로그아웃 처리
@@ -6,10 +6,10 @@ function LogOut() {
   sessionStorage.clear();
 
   //로그아웃 후처리
-  sessionStorage.setItem('userId', 'GUEST');
-  sessionStorage.setItem('userProfileImg', '/static/images/avatar/2.jpg');
+  sessionStorage.setItem('id', 'GUEST');
+  sessionStorage.setItem('profile_image', '/static/images/avatar/2.jpg');
 
   return <></>;
 }
 
-export default LogOut;
+export default LoggedOut;

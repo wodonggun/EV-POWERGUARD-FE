@@ -1,6 +1,7 @@
 import GoogleLogin from 'react-google-login';
 import { useStore } from 'zustand';
 import { useStoreAuth } from '../../../stores';
+import LoggedIn from '../components/LoggedIn';
 
 const clientId =
   '235080019852-bi0219rldfmnd5tt5pblfvmkpsjdf9tk.apps.googleusercontent.com';
@@ -9,17 +10,23 @@ function Login({ onGoogleLogin }) {
   const store = useStoreAuth();
   let sessionStorage = window.sessionStorage;
   const onSuccess = async (res) => {
-    console.log('성공');
+    console.log('구글 로그인 성공', res.getBasicProfile());
+    console.log('구글 로그인 성공', res);
+    debugger;
+
     var profile = res.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
-    store.setUserProfile(profile.getEmail(), profile.getImageUrl(), '');
-
-    sessionStorage.setItem('userId', profile.getEmail());
-    sessionStorage.setItem('userProfileImg', profile.getImageUrl());
+    //미구현
+    //구글로그인 성공 -> db조회 -> 회원가입 or 기존회원이면 MemberType 넘겨줘야함.
+    let loginValue = {
+      id: profile.getEmail(),
+      id_number: profile.getId(),
+      profileImg: profile.getImageUrl(),
+      email: profile.getEmail(),
+      access_token: res.accessToken,
+      id_token: res.tokenId,
+    };
+    LoggedIn(loginValue);
   };
 
   const onFailure = (res) => {
@@ -31,7 +38,7 @@ function Login({ onGoogleLogin }) {
       <GoogleLogin
         clientId={clientId}
         ButtonText="Login"
-        //responseType={"id_token"}
+        responseType={'id_token'}
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}

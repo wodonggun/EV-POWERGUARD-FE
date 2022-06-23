@@ -24,7 +24,7 @@ import {
   DatePicker,
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import api from './api';
+import api from '../../api';
 
 const CustomToolbar = ({ setFilterButtonEl }) => (
   <GridToolbarContainer>

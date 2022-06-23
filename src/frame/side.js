@@ -3,6 +3,7 @@ import { List } from '@mui/material';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import DriverLogIcon from '@mui/icons-material/ElectricCar';
 import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
+import BreakdownIcon from '@mui/icons-material/PowerOff';
 import { MenuItem } from '../components/list_item';
 
 function Side() {
@@ -11,7 +12,7 @@ function Side() {
   const handleListItemClick = (event, index) => {
     //로그인 안되어 있으면 페이지 이동 막기.
     //테스트하실때는 강제로 아래 주석풀어서 세션스토리지에 넣고 사용하세요.
-    /* sessionStorage.getItem('id', 'TEST@naver.com'); */
+    sessionStorage.getItem('id', 'TEST@naver.com');
     let sessionStorage = window.sessionStorage;
     let id = sessionStorage.getItem('id');
     if (id === null || id === '' || id === 'GUEST') {
@@ -48,7 +49,7 @@ function Side() {
       handleClick: handleListItemClick,
     },
     {
-      icon: EditLocationAltIcon,
+      icon: BreakdownIcon,
       url: '/breakdown',
       name: 'Breakdown',
       handleClick: handleListItemClick,

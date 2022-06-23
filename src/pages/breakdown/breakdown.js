@@ -258,7 +258,7 @@ function Breakdown() {
         isShow={visible['writing']}
         data={selectedCharger}
         setVisible={setVisible}
-        refreshList={getBreakdownList}
+        refreshList={handleClickRefresh}
       />
     </Box>
   );

@@ -8,11 +8,12 @@ function LoggedIn(props) {
   let loginValue = {
     id: res.data.email,
     id_number: '',
-    profileImg: '',
+    profile_image: '',
     email: res.data.email,
     access_token: '',
     id_token: '',
     member_type: '',
+    login_type: '',
   };
   */
 
@@ -32,7 +33,7 @@ function LoggedIn(props) {
   } else {
     sessionStorage.setItem('profile_image', userInfo.profileImg);
   }
-  console.log(userInfo.member_type);
+
   if (userInfo.member_type === null || userInfo.member_type === '') {
     sessionStorage.setItem('member_type', 'CUSTOMER');
   } else {

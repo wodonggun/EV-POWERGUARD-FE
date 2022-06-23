@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { useStore } from 'zustand';
 import { useStoreAuth } from '../../../stores';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import LoggedIn from '../components/LoggedIn';
 function LoginNaver() {
   const store = useStoreAuth();
-
+  const navigate = useNavigate();
   // Naver sdk import
   const naverScript = document.createElement('script');
   naverScript.src =
@@ -17,7 +17,7 @@ function LoginNaver() {
   naverScript.onload = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
       clientId: 'Bmd7liz8fL4CGRV4QcXo',
-      callbackUrl: 'http://localhost:3000/signIn',
+      callbackUrl: 'http://localhost:3000',
       callbackHandle: true,
       isPopup: false, // 로그인 팝업여부
       loginButton: {
@@ -31,8 +31,9 @@ function LoginNaver() {
     naverLogin.logout(); // 네이버 로그인이 계속 유지되는 경우가 있다. 초기화시 로그아웃
     naverLogin.getLoginStatus((status) => {
       if (status) {
-        //console.log('Naver 로그인 상태', naverLogin.user);
-        const { id, email, profile_image, birthday, name } = naverLogin.user;
+        const { id, email, profile_image, birthday, name, mobile } =
+          naverLogin.user;
+        const { accessToken, expires, ttl } = naverLogin.accessToken;
         console.log(
           'Naver 로그인 성공 : ',
           id,
@@ -49,15 +50,28 @@ function LoginNaver() {
           return;
         }
 
+        let loginValue = {
+          id: email,
+          id_number: id,
+          login_type: 'NAVER',
+          profileImg: profile_image,
+          email: email,
+          access_token: accessToken,
+          member_type: 'CUSTOMER',
+          id_token: '',
+        };
+        LoggedIn(loginValue);
+        navigate('/station');
         store.setUserProfile(email, profile_image, '');
-
-        <Link to="loginSuccess"></Link>;
       } else {
         console.log('Naver 비 로그인 상태');
       }
     });
   };
 
+  useEffect(() => {
+    // component 가 랜더링 될 때 실행되는 함수
+  }, []);
   return <div id="naverIdLogin"></div>;
 }
 export default LoginNaver;

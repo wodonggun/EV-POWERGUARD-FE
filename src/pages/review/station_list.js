@@ -70,12 +70,12 @@ function StationList({ isShow, setVisible, onClickOk }) {
           name="stations"
           onChange={handleChange}
         >
-          {myStationList.map(({ stationId, stationName, rgstDate }) => (
+          {myStationList.map(({ stationId, stationName, rgstDate, id }) => (
             <FormControlLabel
-              value={stationName}
-              key={stationId}
+              value={`${stationName} | ${id}`}
+              key={id}
               control={<Radio />}
-              label={stationName}
+              label={`${stationName} | ${id}`}
               data-station-id={stationId}
               data-rgst-date={rgstDate}
             />

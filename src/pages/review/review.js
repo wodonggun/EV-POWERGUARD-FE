@@ -95,7 +95,7 @@ function Review() {
     setVisible('list', true);
   });
   const handleClickGetMyReview = useCallback((params, event) => {
-    const res = api.get('/api/review/', { reviewerId: 'user01' });
+    const res = api.get('/api/review/user01');
     //console.log(res);
     //if (res.status === 200 || res.status === 302) {
     console.log(res.status);

@@ -3,6 +3,7 @@ import useStoreReview from './useStoreReview';
 import useStoreDriverLog from './useStoreDriverLog';
 import useStoreAuth from './useStoreAuth';
 import useStoreBreakdown from './useStoreBreakdown';
+import useStoreBookmark from './useStoreBookmark';
 
 export {
   useStoreStation,
@@ -10,4 +11,5 @@ export {
   useStoreDriverLog,
   useStoreAuth,
   useStoreBreakdown,
+  useStoreBookmark,
 };

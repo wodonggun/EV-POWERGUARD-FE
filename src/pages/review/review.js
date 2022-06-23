@@ -95,7 +95,7 @@ function Review() {
     setVisible('list', true);
   });
   const handleClickGetMyReview = useCallback((params, event) => {
-    const res = api.get('/api/review/', { reviewerId: 'user01' });
+    const res = api.get('/api/review/user01');
     //console.log(res);
     //if (res.status === 200 || res.status === 302) {
     console.log(res.status);
@@ -121,9 +121,8 @@ function Review() {
    * 전체 리뷰 리스트를 서버로 부터 받아 온다.
    */
   const getReviewList = async () => {
-    const res = await api.get('/api/users');
+    const res = await api.get('/api/review');
     if (res.status === 200 || res.status === 302) {
-      console.log('ㅎㅇ');
       setReviewList(res.data);
     }
 

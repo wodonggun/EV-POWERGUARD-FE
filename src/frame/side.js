@@ -53,6 +53,12 @@ function Side() {
       name: 'Breakdown',
       handleClick: handleListItemClick,
     },
+    {
+      icon: EditLocationAltIcon,
+      url: '/bookmark',
+      name: 'Bookmark',
+      handleClick: handleListItemClick,
+    },
   ];
   return (
     <List>

@@ -15,7 +15,7 @@ function StationList({ isShow, setVisible, onClickOk }) {
   const { myStationList, setMyStationList } = useStoreReview((state) => state);
 
   const getMyStationList = async () => {
-    const res = await api.get('/api/myStation/1000');
+    const res = await api.get('/api/myStation/790901');
     console.log(res);
     //if (res.status === 200 || res.status === 302) {
     setMyStationList(res.data);
@@ -35,6 +35,7 @@ function StationList({ isShow, setVisible, onClickOk }) {
     const stationId = e.target.closest('label').dataset?.stationId;
     const stationName = e.target.value;
     const rgstDate = e.target.closest('label').dataset?.rgstDate;
+
     stationRef.current = {
       stationId: stationId,
       stationName: stationName,
@@ -51,8 +52,10 @@ function StationList({ isShow, setVisible, onClickOk }) {
   };
 
   useEffect(() => {
-    getMyStationList();
-  }, []);
+    if (isShow) {
+      getMyStationList();
+    }
+  }, [isShow]);
 
   return (
     <Dialog
@@ -69,12 +72,12 @@ function StationList({ isShow, setVisible, onClickOk }) {
           name="stations"
           onChange={handleChange}
         >
-          {myStationList.map(({ stationId, stationName, rgstDate }) => (
+          {myStationList.map(({ stationId, stationName, rgstDate, id }) => (
             <FormControlLabel
-              value={stationName}
-              key={stationId}
+              value={`${stationName} | ${id}`}
+              key={id}
               control={<Radio />}
-              label={stationName}
+              label={`${stationName} | ${id}`}
               data-station-id={stationId}
               data-rgst-date={rgstDate}
             />

@@ -18,6 +18,7 @@ import {
   FormControl,
   FormLabel,
 } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 
 import api from '../../api';
 
@@ -36,6 +37,7 @@ export default function ChargerWrite({ data, isShow, setVisible, reloadList }) {
   const [adminId, setAdminId] = useState('admin1');
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
+  const confirm = useConfirm();
 
   const handleClose = (event) => {
     setVisible('writingCharger', false);
@@ -44,24 +46,28 @@ export default function ChargerWrite({ data, isShow, setVisible, reloadList }) {
     console.log(e);
     console.log(chargerType);
 
-    api.post(
-      'api/stations/chargers',
-      {
-        chargingStationId: data.id,
-        operationStatus: operationStatus,
-        chargerType: chargerType,
-        chargerName: chargerName.current.value,
-        serialNumber: serialNumber.current.value,
-        modelNo: modelNo.current.value,
-        connectorType: connectorType,
-        inputVoltage: inputVoltage.current.value,
-        outputVoltage: outputVoltage.current.value,
-        ratedCapacity: ratedCapacity.current.value,
-        chargingTime: chargingTime.current.value,
-      },
-      null,
-      handleRefReload
-    );
+    confirm({ description: `등록하시겠습니까?` })
+      .then(() => {
+        api.post(
+          'api/stations/chargers',
+          {
+            chargingStationId: data.id,
+            operationStatus: operationStatus,
+            chargerType: chargerType,
+            chargerName: chargerName.current.value,
+            serialNumber: serialNumber.current.value,
+            modelNo: modelNo.current.value,
+            connectorType: connectorType,
+            inputVoltage: inputVoltage.current.value,
+            outputVoltage: outputVoltage.current.value,
+            ratedCapacity: ratedCapacity.current.value,
+            chargingTime: chargingTime.current.value,
+          },
+          null,
+          handleRefReload
+        );
+      })
+      .catch(() => console.log('Insert cancelled.'));
   };
   const handleRefReload = (event) => {
     setVisible('writingCharger', false);
@@ -124,31 +130,6 @@ export default function ChargerWrite({ data, isShow, setVisible, reloadList }) {
         </Grid>
         <Grid container sx={{ padding: '10px 0' }}>
           <Grid item xs={2}>
-            <Typography variant="subtitle1">충전기 종류</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="chargerType"
-              >
-                <FormControlLabel
-                  value="FAST"
-                  control={<Radio />}
-                  label="급속"
-                  onChange={handleChargerType}
-                />
-                <FormControlLabel
-                  value="NORMAL"
-                  control={<Radio />}
-                  label="완속"
-                  onChange={handleChargerType}
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={2}>
             <Typography variant="subtitle1">충전기 상태</Typography>
           </Grid>
           <Grid item xs={4}>
@@ -169,6 +150,31 @@ export default function ChargerWrite({ data, isShow, setVisible, reloadList }) {
                   control={<Radio />}
                   label="점검중"
                   onChange={handleOperationStatus}
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="subtitle1">충전기 종류</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="chargerType"
+              >
+                <FormControlLabel
+                  value="FAST"
+                  control={<Radio />}
+                  label="급속"
+                  onChange={handleChargerType}
+                />
+                <FormControlLabel
+                  value="NORMAL"
+                  control={<Radio />}
+                  label="완속"
+                  onChange={handleChargerType}
                 />
               </RadioGroup>
             </FormControl>

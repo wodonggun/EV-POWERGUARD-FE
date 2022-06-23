@@ -20,6 +20,7 @@ import {
   Checkbox,
   FormGroup,
 } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import ChargerWrite from './station_writing';
 import api from '../../api';
 
@@ -43,6 +44,7 @@ export default function ChargerDetail({
   const [adminId, setAdminId] = useState('admin1');
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
+  const confirm = useConfirm();
 
   const handleClose = (event) => {
     setVisible('detailCharger', false);
@@ -51,34 +53,42 @@ export default function ChargerDetail({
   const handleDelete = () => {
     console.log(data.id);
     console.log('chargingStationId ' + data.chargingStationId);
-    api.delete('/api/stations/chargers/' + data.id, null, handleRefReload);
-    reloadList();
+
+    confirm({ description: `삭제하시겠습니까?` })
+      .then(() => {
+        api.delete('/api/stations/chargers/' + data.id, null, handleRefReload);
+      })
+      .catch(() => console.log('Deletion cancelled.'));
   };
 
   const handleSave = (e) => {
     console.log(e);
 
-    api.put(
-      'api/stations/chargers',
-      {
-        id: data.id,
-        chargingStationId: data.chargingStationId,
-        operationStatus:
-          operationStatus === '' ? data.operationStatus : operationStatus,
-        chargerType: chargerType === '' ? data.chargerType : chargerType,
-        chargerName: chargerName.current.value,
-        serialNumber: serialNumber.current.value,
-        modelNo: modelNo.current.value,
-        connectorType:
-          connectorType === '' ? data.connectorType : connectorType,
-        inputVoltage: inputVoltage.current.value,
-        outputVoltage: outputVoltage.current.value,
-        ratedCapacity: ratedCapacity.current.value,
-        chargingTime: chargingTime.current.value,
-      },
-      null,
-      handleRefReload
-    );
+    confirm({ description: `삭제하시겠습니까?` })
+      .then(() => {
+        api.put(
+          'api/stations/chargers',
+          {
+            id: data.id,
+            chargingStationId: data.chargingStationId,
+            operationStatus:
+              operationStatus === '' ? data.operationStatus : operationStatus,
+            chargerType: chargerType === '' ? data.chargerType : chargerType,
+            chargerName: chargerName.current.value,
+            serialNumber: serialNumber.current.value,
+            modelNo: modelNo.current.value,
+            connectorType:
+              connectorType === '' ? data.connectorType : connectorType,
+            inputVoltage: inputVoltage.current.value,
+            outputVoltage: outputVoltage.current.value,
+            ratedCapacity: ratedCapacity.current.value,
+            chargingTime: chargingTime.current.value,
+          },
+          null,
+          handleRefReload
+        );
+      })
+      .catch(() => console.log('Deletion cancelled.'));
   };
   const handleRefReload = (event) => {
     setVisible('detailCharger', false);

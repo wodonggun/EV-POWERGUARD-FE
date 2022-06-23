@@ -18,7 +18,10 @@ import {
   FormControl,
   FormLabel,
 } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
 import StationWrite from './station_writing';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import api from '../../api';
 
 export default function StationDetail({
@@ -36,6 +39,7 @@ export default function StationDetail({
   const [adminId, setAdminId] = useState('admin1');
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
+  const confirm = useConfirm();
 
   const handleClose = () => {
     setVisible('detailStation', false);
@@ -43,8 +47,12 @@ export default function StationDetail({
 
   const handleDelete = () => {
     console.log(data.id);
-    api.delete('/api/stations/' + data.id, null, handleRefReload);
-    reloadList();
+
+    confirm({ description: `삭제하시겠습니까?` })
+      .then(() => {
+        api.delete('/api/stations/' + data.id, null, handleRefReload);
+      })
+      .catch(() => console.log('Deletion cancelled.'));
   };
 
   const handleSave = (e) => {
@@ -56,21 +64,25 @@ export default function StationDetail({
     console.log(repairCompanyName.current.value);
     console.log(repairCompanyTel.current.value);
 
-    api.put(
-      'api/stations',
-      {
-        id: data.id,
-        stationName: stationName.current.value,
-        stationAddress: stationAddress.current.value,
-        availableTime: availableTime.current.value,
-        isFreeParking: isFreeParking,
-        repairCompanyName: repairCompanyName.current.value,
-        repairCompanyTel: repairCompanyTel.current.value,
-        adminId: adminId,
-      },
-      null,
-      handleRefReload
-    );
+    confirm({ description: `수정하시겠습니까?` })
+      .then(() => {
+        api.put(
+          'api/stations',
+          {
+            id: data.id,
+            stationName: stationName.current.value,
+            stationAddress: stationAddress.current.value,
+            availableTime: availableTime.current.value,
+            isFreeParking: isFreeParking,
+            repairCompanyName: repairCompanyName.current.value,
+            repairCompanyTel: repairCompanyTel.current.value,
+            adminId: adminId,
+          },
+          null,
+          handleRefReload
+        );
+      })
+      .catch(() => console.log('Deletion cancelled.'));
   };
   const handleRefReload = (event) => {
     setVisible('detailStation', false);

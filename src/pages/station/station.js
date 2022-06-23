@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { Box, Button, Grid, Stack, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { AddCircleOutline } from '@mui/icons-material';
 import StationDetail from './station_detail';
 import StationWrite from './station_writing';
@@ -23,21 +24,6 @@ const CustomToolbar = ({ setFilterButtonEl }) => (
   </GridToolbarContainer>
 );
 
-const renderCreateBookmarkButton = (params) => {
-  return (
-    <strong>
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        style={{ marginLeft: 16 }}
-      >
-        즐겨찾기 등록
-      </Button>
-    </strong>
-  );
-};
-
 const columns = [
   {
     field: 'idx',
@@ -46,7 +32,9 @@ const columns = [
     width: 100,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',
-    renderCell: (params) => <span>{params.id}</span>,
+    renderCell: (params) => (
+      <span>{params.api.getRowIndex(params.row.id) + 1}</span>
+    ),
   },
   {
     field: 'stationName',
@@ -98,35 +86,15 @@ const columns = [
     renderCell: (params) => (
       <strong>
         <Button
-          component="button"
+          component={Link}
+          to={'/charger/' + params.value}
           variant="contained"
-          size="small"
-          style={{ marginLeft: 16 }}
-          // Remove button from tab sequence when cell does not have focus
-          tabIndex={params.hasFocus ? 0 : -1}
-          // onKeyDown={(event) => {
-          //   if (event.key === ' ') {
-          //     // Prevent key navigation when focus is on button
-          //     event.stopPropagation();
-          //   }
-          // }}
-          // onClick={(event) => {
-          //   console.log('aaaa : ' + params.value);
-          // }}
-          href={'/charger/' + params.value}
+          color="primary"
         >
           충전기 조회
         </Button>
       </strong>
     ),
-  },
-  {
-    field: 'bookmark',
-    headerName: '즐겨찾기 등록',
-    type: 'number',
-    width: 130,
-    headerAlign: 'center',
-    renderCell: renderCreateBookmarkButton,
   },
 ];
 
@@ -163,10 +131,10 @@ function Station() {
   const [date, setDate] = useState(new Date());
   const selectedRow = useRef({});
   const handleClickContent = useCallback((params, event) => {
-    //if (params.field === 'stationName') {
-    selectedRow.current = params.row;
-    setVisible('detailStation', true);
-    //}
+    if (params.field !== 'id') {
+      selectedRow.current = params.row;
+      setVisible('detailStation', true);
+    }
   }, []);
   const handleClickWriteStation = useCallback((params, event) => {
     setVisible('writingStation', true);

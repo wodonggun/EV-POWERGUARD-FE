@@ -2,7 +2,8 @@ import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Box, Button, Grid, Stack, TextField } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
-import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
+import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ChargerDetail from './charger_detail';
 import ChargerWrite from './charger_writing';
@@ -34,7 +35,9 @@ const columns = [
     width: 100,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',
-    renderCell: (params) => <span>{params.id}</span>,
+    renderCell: (params) => (
+      <span>{params.api.getRowIndex(params.row.id) + 1}</span>
+    ),
   },
   {
     field: 'chargerName',
@@ -208,14 +211,18 @@ function Charger() {
     >
       <div style={{ alignSelf: 'self-start', paddingLeft: '20px' }}>
         <h2>
-          <IconButton
+          <Button
+            component={Link}
+            to="/station"
+            variant="outlined"
             color="primary"
-            aria-label="add to shopping cart"
-            href="/station"
           >
-            <ArrowBackIcon />
-          </IconButton>
-          충전기 조회
+            <Icon>arrow_back</Icon>
+            이전
+          </Button>
+          <span style={{ alignSelf: 'self-start', paddingLeft: '20px' }}>
+            ({selectedStation.stationName}) 충전기 조회
+          </span>
         </h2>
       </div>
       <div style={{ alignSelf: 'self-end', paddingBottom: '10px' }}>

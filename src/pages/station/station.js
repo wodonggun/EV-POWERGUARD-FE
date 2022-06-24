@@ -18,6 +18,8 @@ import PaginationItem from '@mui/material/PaginationItem';
 import PropTypes from 'prop-types';
 import api from '../../api';
 import { useStoreStation } from '../../stores';
+import { useConfirm } from 'material-ui-confirm';
+
 const CustomToolbar = ({ setFilterButtonEl }) => (
   <GridToolbarContainer>
     <GridToolbarFilterButton ref={setFilterButtonEl} />
@@ -153,8 +155,13 @@ function Station() {
   } = useStoreStation((state) => state);
   const [date, setDate] = useState(new Date());
   const selectedRow = useRef({});
+  const confirm = useConfirm();
   const handleClickContent = useCallback((params, event) => {
-    if (params.field !== 'id') {
+    if (params.field === 'bookmark') {
+      selectedRow.current = params.row;
+      console.log('station id 1 : ' + selectedRow.current.id);
+      createBookmark(selectedRow.current.id);
+    } else if (params.field !== 'id') {
       selectedRow.current = params.row;
       setVisible('detailStation', true);
     }
@@ -177,6 +184,23 @@ function Station() {
     }
     console.log('getStationList ====== 4');
     return res;
+  };
+
+  const createBookmark = async (stationId) => {
+    console.log('station id : ' + stationId);
+    confirm({ description: `등록하시겠습니까?` })
+      .then(() => {
+        api.post(
+          'api/stations/bookmarks',
+          {
+            stationId: stationId,
+            userId: 'songTEST@gmail.com',
+          },
+          null,
+          null
+        );
+      })
+      .catch(() => console.log('Insert cancelled.'));
   };
 
   useEffect(() => {

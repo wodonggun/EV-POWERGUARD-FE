@@ -93,7 +93,12 @@ function Bookmark() {
    * 사용자별 즐겨찾기 리스트 조회
    */
   const getBookmarkList = async () => {
-    const res = await api.get('api/stations/bookmarks/');
+    console.log(
+      'process.env.REACT_APP_BASE_URL : ' + process.env.REACT_APP_BASE_URL
+    );
+    const res = await api.get(
+      'api/stations/bookmarks/userid/' + 'songTEST@gmail.com'
+    );
     if (res.status === 200 || res.status === 302) {
       setBookmarkList(res.data);
     }
@@ -106,6 +111,7 @@ function Bookmark() {
    */
   const deleteBookmark = async () => {
     console.log('즐겨찾기 삭제' + selectedRow.current.id);
+    console.log('즐겨찾기 삭제' + selectedRow.current.userId);
     const res = await api.delete(
       'api/stations/bookmarks/' + selectedRow.current.id,
       null,

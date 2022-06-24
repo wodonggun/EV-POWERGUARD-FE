@@ -12,7 +12,7 @@ function Side() {
   const handleListItemClick = (event, index) => {
     //로그인 안되어 있으면 페이지 이동 막기.
     //테스트하실때는 강제로 아래 주석풀어서 세션스토리지에 넣고 사용하세요.
-    sessionStorage.getItem('id', 'TEST@naver.com');
+    sessionStorage.setItem('id', 'TEST@naver.com');
     let sessionStorage = window.sessionStorage;
     let id = sessionStorage.getItem('id');
     if (id === null || id === '' || id === 'GUEST') {

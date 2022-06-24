@@ -14,7 +14,7 @@ function Content() {
   return (
     <div className="App">
       <Routes>
-        <Route exact={true} path="/" element={<Home />}></Route>
+        <Route exact={true} path="/" element={<SignIn />}></Route>
         <Route path="/station" element={<Station />}></Route>
         <Route path="/charger/:stationId" element={<Charger />}></Route>
         <Route path="/review" element={<Review />}></Route>
@@ -24,7 +24,6 @@ function Content() {
         <Route path="/signEdit" element={<SignEdit />}></Route>
         <Route path="/breakdown" element={<Breakdown />}></Route>
         <Route path="/bookmark" element={<Bookmark />}></Route>
-        <Route path="/home" element={<Home />}></Route>
       </Routes>
     </div>
   );

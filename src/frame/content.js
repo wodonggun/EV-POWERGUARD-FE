@@ -10,11 +10,7 @@ function Content() {
   return (
     <div className="App">
       <Routes>
-        <Route exact={true} path="/" element={<SignIn />}></Route>
         <Route path="/station" element={<Station />}></Route>
-        <Route path="/charger/:stationId" element={<Charger />}></Route>
-        <Route path="/review" element={<Review />}></Route>
-        <Route path="/driverlog" element={<DriverLog />}></Route>
       </Routes>
     </div>
   );

@@ -12,6 +12,8 @@ function Side() {
   const handleListItemClick = (event, index) => {
     //로그인 안되어 있으면 페이지 이동 막기.
     //테스트하실때는 강제로 아래 주석풀어서 세션스토리지에 넣고 사용하세요.
+    //----------------------------------------------- ToDo. 아래 세션 체크 로직 변경해주세요. by JIN 2022-06-24
+    /*
     sessionStorage.getItem('id', 'TEST@naver.com');
     let sessionStorage = window.sessionStorage;
     let id = sessionStorage.getItem('id');
@@ -21,6 +23,7 @@ function Side() {
     } else {
       setSelectedIndex(index);
     }
+    */
   };
   /* 메뉴 추가 */
   const itemList = [

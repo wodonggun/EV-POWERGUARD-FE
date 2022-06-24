@@ -14,16 +14,16 @@ function Content() {
   return (
     <div className="App">
       <Routes>
-        <Route exact={true} path="/" element={<SignIn />}></Route>
-        <Route path="/station" element={<Station />}></Route>
+        <Route path="/" element={<SignIn />}></Route>
+        <Route path="/station/*" element={<Station />}></Route>
         <Route path="/charger/:stationId" element={<Charger />}></Route>
-        <Route path="/review" element={<Review />}></Route>
-        <Route path="/driverlog" element={<DriverLog />}></Route>
-        <Route path="/signIn" element={<SignIn />}></Route>
-        <Route path="/signUp" element={<SignUp />}></Route>
-        <Route path="/signEdit" element={<SignEdit />}></Route>
-        <Route path="/breakdown" element={<Breakdown />}></Route>
-        <Route path="/bookmark" element={<Bookmark />}></Route>
+        <Route path="/review/*" element={<Review />}></Route>
+        <Route path="/driverlog/*" element={<DriverLog />}></Route>
+        <Route path="/signIn/*" element={<SignIn />}></Route>
+        <Route path="/signUp/*" element={<SignUp />}></Route>
+        <Route path="/signEdit/*" element={<SignEdit />}></Route>
+        <Route path="/breakdown/*" element={<Breakdown />}></Route>
+        <Route path="/bookmark/*" element={<Bookmark />}></Route>
       </Routes>
     </div>
   );

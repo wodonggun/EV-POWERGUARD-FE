@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import { ConfirmProvider } from 'material-ui-confirm';
 import {
   frame,
   frame_top,
@@ -14,19 +15,21 @@ import Top from './top';
 export default function Main() {
   return (
     <React.Fragment>
-      <Box sx={frame}>
-        <Box sx={frame_top}>
-          <Top />
-        </Box>
-        <Box sx={frame_bottom}>
-          <Box sx={frame_bottom_side}>
-            <Side />
+      <ConfirmProvider>
+        <Box sx={frame}>
+          <Box sx={frame_top}>
+            <Top />
           </Box>
-          <Box sx={frame_bottom_content}>
-            <Content />
+          <Box sx={frame_bottom}>
+            <Box sx={frame_bottom_side}>
+              <Side />
+            </Box>
+            <Box sx={frame_bottom_content}>
+              <Content />
+            </Box>
           </Box>
         </Box>
-      </Box>
+      </ConfirmProvider>
     </React.Fragment>
   );
 }

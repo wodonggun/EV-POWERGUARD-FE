@@ -4,6 +4,7 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import DriverLogIcon from '@mui/icons-material/ElectricCar';
 import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
 import BreakdownIcon from '@mui/icons-material/PowerOff';
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import { MenuItem } from '../components/list_item';
 
 function Side() {
@@ -28,7 +29,7 @@ function Side() {
   /* 메뉴 추가 */
   const itemList = [
     {
-      icon: EditLocationAltIcon,
+      icon: LocalGasStationIcon,
       url: '/station',
       name: 'Station',
       handleClick: handleListItemClick,

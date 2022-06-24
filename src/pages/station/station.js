@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { AddCircleOutline } from '@mui/icons-material';
 import StationDetail from './station_detail';
@@ -19,6 +19,8 @@ import PropTypes from 'prop-types';
 import api from '../../api';
 import { useStoreStation } from '../../stores';
 import { useConfirm } from 'material-ui-confirm';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
 const CustomToolbar = ({ setFilterButtonEl }) => (
   <GridToolbarContainer>
@@ -68,11 +70,21 @@ const columns = [
     width: 100,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',
+    renderCell: (params) => (
+      <strong>
+        <Chip
+          icon={<WatchLaterIcon />}
+          label={params.row.availableTime}
+          variant="outlined"
+          color="default"
+        />
+      </strong>
+    ),
   },
   {
     field: 'isFreeParking',
     headerName: '무료주차',
-    type: 'string',
+    type: 'boolean',
     width: 100,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',

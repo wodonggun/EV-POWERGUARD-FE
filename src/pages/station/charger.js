@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { Box, Button, Grid, Stack, TextField } from '@mui/material';
+import { Box, Button, Chip, Grid, Stack, TextField } from '@mui/material';
 import { AddCircleOutline } from '@mui/icons-material';
 import Icon from '@mui/material/Icon';
 import { Link } from 'react-router-dom';
@@ -21,6 +21,12 @@ import PaginationItem from '@mui/material/PaginationItem';
 import PropTypes from 'prop-types';
 import api from '../../api';
 import { useStoreStation } from '../../stores';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
+import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
+import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
+
 const CustomToolbar = ({ setFilterButtonEl }) => (
   <GridToolbarContainer>
     <GridToolbarFilterButton ref={setFilterButtonEl} />
@@ -59,9 +65,29 @@ const columns = [
     field: 'operationStatus',
     headerName: '충전기상태',
     type: 'string',
-    width: 100,
+    width: 130,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',
+    renderCell: (params) => (
+      <strong>
+        <Chip
+          icon={
+            params.row.operationStatus === 'BROKEN' ? (
+              <ErrorIcon />
+            ) : (
+              <CheckCircleIcon />
+            )
+          }
+          label={
+            params.row.operationStatus === 'BROKEN' ? '점검중' : '사용가능'
+          }
+          variant="outlined"
+          color={
+            params.row.operationStatus === 'BROKEN' ? 'warning' : 'success'
+          }
+        />
+      </strong>
+    ),
   },
   {
     field: 'chargerType',
@@ -70,14 +96,39 @@ const columns = [
     width: 100,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',
+    renderCell: (params) => (
+      <strong>
+        <Chip
+          icon={
+            params.row.chargerType === 'FAST' ? (
+              <ThunderstormIcon />
+            ) : (
+              <BatteryChargingFullIcon />
+            )
+          }
+          label={params.row.chargerType === 'FAST' ? '급속' : '완속'}
+          variant="outlined"
+          color="default"
+        />
+      </strong>
+    ),
   },
   {
     field: 'connectorType',
     headerName: '커넥터',
     type: 'string',
-    width: 200,
+    width: 100,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',
+    renderCell: (params) => (
+      <strong>
+        <Chip
+          label={params.row.connectorType}
+          variant="outlined"
+          color="default"
+        />
+      </strong>
+    ),
   },
   {
     field: 'inputVoltage',

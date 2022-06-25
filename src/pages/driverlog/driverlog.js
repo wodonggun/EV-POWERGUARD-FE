@@ -15,6 +15,7 @@ const CustomToolbar = ({ setFilterButtonEl }) => (
     <GridToolbarFilterButton ref={setFilterButtonEl} />
   </GridToolbarContainer>
 );
+
 const columns = [
   {
     field: 'id',
@@ -30,6 +31,7 @@ const columns = [
     headerName: '이용일자',
     width: 110,
     type: 'date',
+    valueGetter: ({ value }) => value && new Date(value),
   },
   {
     field: 'stationName',
@@ -104,6 +106,7 @@ function DriverLog() {
     id: '',
     loginId: '',
   });
+
   const handleClickCalEfficiency = useCallback((params, event) => {
     if (params.field === 'electronicEfficiency') {
       console.log('안녕');
@@ -144,7 +147,6 @@ function DriverLog() {
 
   useEffect(() => {
     // component 가 랜더링 될 때 실행되는 함수
-
     getDriverLogList();
   }, []);
   return (

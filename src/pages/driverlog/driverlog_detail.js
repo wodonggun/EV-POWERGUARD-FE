@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -8,7 +8,8 @@ import {
   Typography,
   Grid,
   TextareaAutosize,
-  TextField
+  TextField,
+  Box,
 } from '@mui/material';
 import DriverLogWrite from './driverlog_writing';
 import api from '../../api';
@@ -17,27 +18,70 @@ import {
   DatePicker,
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { useConfirm } from 'material-ui-confirm';
 
-export default function DriverLogDetail({ data, isShow, setVisible,
-  reloadList, }) {
+export default function DriverLogDetail({ data, isShow, setVisible, reloadList,})
+{
+  const stationName = useRef();
+  const chargeDate = useRef();
+  const nowMileage = useRef();
+  const chargeAmount = useRef();
+  const chargeFee = useRef();
+  const memo = useRef();
+  const [fullWidth, setFullWidth] = React.useState(true);
+  const [maxWidth, setMaxWidth] = React.useState('md');
+  const confirm = useConfirm();
+
   const handleClose = () => {
     setVisible('detail', false);
   };
 
   const handleDelete = () => {
     console.log(data.id);
-    api.delete('/api/driverlogs/' + data.id, null, handleRefReload);
-    reloadList();
+    confirm({ description: `삭제하시겠습니까?` })
+      .then(() => {
+        api.delete('/api/driverlogs/' + data.id, null, handleRefReload);
+      })
+      .catch(() => console.log('Deletion cancelled.'));
   };
 
-  const handleSave = () => {};
+  const handleSave = (e) => {
+    console.log(e);
+    console.log(data.id);
+    console.log(stationName.current.value);
+    console.log(chargeDate.current.value);
+    console.log(nowMileage.current.value);
+    console.log(chargeAmount.current.value);
+    console.log(chargeFee.current.value);
+    console.log(memo.current.value);
+
+    confirm({ description: `수정하시겠습니까?` })
+      .then(() => {
+        api.put(
+          'api/driverlogs',
+          {
+            id: data.id,
+            stationName: stationName.current.value,
+            chargeDate: chargeDate.current.value,
+            nowMileage: nowMileage.current.value,
+            chargeAmount: chargeAmount.current.value,
+            chargeFee: chargeFee.current.value,
+            memo: memo.current.value,
+          },
+          null,
+          handleRefReload
+        );
+      })
+      .catch(() => console.log('Save cancelled.'));
+  };
 
   //Data Picker 변수
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(new Date());
 
-  const handleChangeDate = useCallback((date) => {
+  const handleChangeDate = useCallback(() => {
     //
     setDate(date);
+    console.log(date)
   });
 
   const handleRefReload = (event) => {
@@ -45,8 +89,30 @@ export default function DriverLogDetail({ data, isShow, setVisible,
     reloadList();
   };
 
+  const [inputs, setInputs] = useState({
+    stationName: null,
+    chargeDate: null,
+    nowMileage: null,
+    chargeAmount: null,
+    chargeFee: null,
+    memo: null,
+  });
+
+  const handleInputChange = (e) => {
+    const { value, id } = e.target; // 우선 e.target 에서 id 과 value 를 추출
+    setInputs({
+      ...inputs,
+      [id]: value, // id 키를 가진 값을 value 로 설정
+    });
+    console.log(inputs);
+  };
+
   return (
-    <Dialog open={isShow} onClose={handleClose}>
+    <Dialog fullWidth={fullWidth}
+            maxWidth={maxWidth}
+            open={isShow}
+            onClose={handleClose}
+    >
       <DialogTitle>차계부 상세보기</DialogTitle>
       <DialogContent>
         {/* 첫번째 행 */}
@@ -55,21 +121,39 @@ export default function DriverLogDetail({ data, isShow, setVisible,
             <Typography variant="subtitle1">이용 충전소</Typography>
           </Grid>
           <Grid item xs>
-            <Typography variant="subtitle1" readOnly>
-              {data.stationName}
+            <Typography variant="subtitle1">
+              <TextareaAutosize
+                id="stationName"
+                inputRef={stationName}
+                value={
+                  inputs.stationName === null
+                    ? data.stationName
+                    : inputs.stationName
+                }
+                onChange={handleInputChange}
+              />
             </Typography>
           </Grid>
-          <Grid item xs>
+          <Grid item xs={2}>
             <Typography variant="subtitle1">충전일자</Typography>
           </Grid>
-          <Grid item xs>
-            <Typography variant="subtitle1" readOnly>
+          <Grid item xs={4}>
+            <Typography variant="subtitle1">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
-                  inputFormat="yyyy-MM-dd"
-                  value={date}
-                  onChange={handleChangeDate}
+                  id="chargeDate"
+                  mask='yyyy-MM-dd'
+                  value={
+                  inputs.chargeDate === null
+                    ? data.chargeDate
+                    : inputs.chargeDate
+                  }
+                  //minDate={new Date('2017-01-01')}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
                   renderInput={(params) => <TextField {...params} />}
+                  // onChange={handleChangeDate}
                 />
               </LocalizationProvider>
             </Typography>
@@ -101,7 +185,13 @@ export default function DriverLogDetail({ data, isShow, setVisible,
             <TextareaAutosize
               id="nowMileage"
               style={{ width: 90 }}
-              value={data.nowMileage}
+              inputRef={nowMileage}
+              value={
+                inputs.nowMileage === null
+                  ? data.nowMileage
+                  : inputs.nowMileage
+              }
+              onChange={handleInputChange}
             /> km
           </Grid>
         </Grid>
@@ -115,7 +205,13 @@ export default function DriverLogDetail({ data, isShow, setVisible,
             <TextareaAutosize
               id="chargeAmount"
               style={{ width: 90 }}
-              value={data.chargeAmount}
+              inputRef={chargeAmount}
+              value={
+                inputs.chargeAmount === null
+                  ? data.chargeAmount
+                  : inputs.chargeAmount
+              }
+              onChange={handleInputChange}
             /> kW
           </Grid>
           <Grid item xs>
@@ -125,7 +221,12 @@ export default function DriverLogDetail({ data, isShow, setVisible,
              <TextareaAutosize
                 id="chargeFee"
                 style={{ width: 90 }}
-                value={data.chargeFee}
+                value={
+                  inputs.chargeFee === null
+                    ? data.chargeFee
+                    : inputs.chargeFee
+                }
+                onChange={handleInputChange}
               /> 원
           </Grid>
         </Grid>
@@ -140,7 +241,13 @@ export default function DriverLogDetail({ data, isShow, setVisible,
               id="memo"
               minRows={4}
               style={{ width: 500 }}
-              value={data.memo}
+              inputRef={memo}
+              value={
+                inputs.memo === null
+                  ? data.memo
+                  : inputs.memo
+              }
+              onChange={handleInputChange}
             />
           </Grid>
         </Grid>
@@ -157,11 +264,12 @@ export default function DriverLogDetail({ data, isShow, setVisible,
 DriverLogWrite.defaultProps = {
   data: {
     id: '',
+    stationName: '',
     nowMileage: '',
     chargeAmount: '',
     chargeFee: '',
     memo: '',
     loginId: '',
-    chargerDate: '',
+    chargeDate: '',
   },
 };

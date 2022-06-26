@@ -4,7 +4,13 @@ import {
   DataGrid,
   GridToolbarContainer,
   GridToolbarFilterButton,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector,
 } from '@mui/x-data-grid';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
 
 import api from '../../api';
 import { useStoreBookmark } from '../../stores';
@@ -102,6 +108,25 @@ const columns = [
   },
 ];
 
+function CustomPagination() {
+  const apiRef = useGridApiContext();
+  const page = useGridSelector(apiRef, gridPageSelector);
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+  return (
+    <Pagination
+      color="primary"
+      variant="outlined"
+      shape="rounded"
+      page={page + 1}
+      count={pageCount}
+      // @ts-expect-error
+      renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+      onChange={(event, value) => apiRef.current.setPage(value - 1)}
+    />
+  );
+}
+
 function Bookmark() {
   const { bookmarkList, visible, page, setBookmarkList, setVisible, setPage } =
     useStoreBookmark((state) => state);
@@ -128,7 +153,10 @@ function Bookmark() {
       'process.env.REACT_APP_BASE_URL : ' + process.env.REACT_APP_BASE_URL
     );
     const res = await api.get(
-      'api/stations/bookmarks/userid/' + 'songTEST@gmail.com'
+      'api/stations/bookmarks/userid/' +
+        'songTEST@gmail.com' +
+        '?size=' +
+        page.size
     );
     if (res.status === 200 || res.status === 302) {
       setBookmarkList(res.data);
@@ -191,6 +219,7 @@ function Bookmark() {
           disableSelectionOnClick
           components={{
             Toolbar: CustomToolbar,
+            Pagination: CustomPagination,
           }}
           onCellClick={handleClickDeleteBookmark}
         />

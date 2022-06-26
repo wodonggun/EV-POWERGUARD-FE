@@ -5,6 +5,11 @@ import produce from 'immer';
 const useStoreBookmark = create(
   devtools((set) => ({
     bookmarkList: [],
+    page: {
+      size: 1000,
+      page: 1,
+      sort: '',
+    },
     visible: {
       bookmarkList: false,
     },

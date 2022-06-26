@@ -7,13 +7,13 @@ import {
   Button,
   Typography,
   Grid,
-  TextareaAutosize,
   TextField,
   Box,
 } from '@mui/material';
 import DriverLogWrite from './driverlog_writing';
 import api from '../../api';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useConfirm } from 'material-ui-confirm';
 
@@ -47,14 +47,17 @@ export default function DriverLogDetail({
   };
 
   const handleSave = (e) => {
-    console.log(e);
+    console.log(data);
     console.log(data.id);
+    console.log(data.stationId);
+    console.log(data.chargerType);
     console.log(stationName.current.value);
-    console.log(chargeDate.current.value);
+    console.log(startDate);
     console.log(nowMileage.current.value);
     console.log(chargeAmount.current.value);
     console.log(chargeFee.current.value);
     console.log(memo.current.value);
+    console.log(data.loginId);
 
     confirm({ description: `수정하시겠습니까?` })
       .then(() => {
@@ -62,12 +65,15 @@ export default function DriverLogDetail({
           'api/driverlogs',
           {
             id: data.id,
+            stationId: data.stationId,
             stationName: stationName.current.value,
-            chargeDate: chargeDate.current.value,
+            chargeDate: startDate,
+            chargerType: data.chargerType,
             nowMileage: nowMileage.current.value,
             chargeAmount: chargeAmount.current.value,
             chargeFee: chargeFee.current.value,
             memo: memo.current.value,
+            loginId: data.loginId,
           },
           null,
           handleRefReload
@@ -77,13 +83,14 @@ export default function DriverLogDetail({
   };
 
   //Data Picker 변수
-  const [date, setDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date(data.chargeDate));
 
-  const handleChangeDate = useCallback(() => {
-    //
-    setDate(date);
-    console.log(date);
-  });
+  console.warn('경고');
+  console.log('data.chargeDate는 %d', data.chargeData);
+
+  const handleChangeDate = (newStartDate) => {
+    setStartDate(newStartDate);
+  };
 
   const handleRefReload = (event) => {
     setVisible('detail', false);
@@ -143,27 +150,22 @@ export default function DriverLogDetail({
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1">
-              {/*
+
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
+                <DateTimePicker
                   id="chargeDate"
-                  mask="yyyy-MM-dd"
-                  value={
-                    inputs.chargeDate === null
-                      ? data.chargeDate
-                      : inputs.chargeDate
-                  }
-                  //minDate={new Date('2017-01-01')}
-                  onChange={(newValue) => {
-                    setDate(newValue);
-                  }}
+                  value={startDate === null
+                    ? data.stationName
+                    : startDate}
+                  inputFormat="yyyy/MM/dd hh:mm a"
+                  mask="___/__/__ __:__ _M"
+                  onChange={handleChangeDate}
                   renderInput={(params) => <TextField {...params} />}
-                  // onChange={handleChangeDate}
                 />
               </LocalizationProvider>
-               */}
 
-              <Typography variant="subtitle1">
+
+              {/* <Typography variant="subtitle1">
                 <TextField
                   id="chargeDate"
                   variant="outlined"
@@ -176,7 +178,7 @@ export default function DriverLogDetail({
                   }
                   onChange={handleInputChange}
                 />
-              </Typography>
+              </Typography> */}
             </Typography>
           </Grid>
           {/* <Grid item xs>

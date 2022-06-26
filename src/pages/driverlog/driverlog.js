@@ -109,12 +109,10 @@ function DriverLog() {
 
   const handleClickCalEfficiency = useCallback((params, event) => {
     if (params.field === 'electronicEfficiency') {
-      console.log('안녕');
       setVisible('writing', true);
     }else {
       selectedRow.current = params.row;
       setVisible('detail', true);
-      console.log('컨텐츠');
     }
   }, []);
   const handleClickWriteDriverLog = useCallback((params, event) => {

@@ -12,6 +12,7 @@ import { Bookmark } from '../pages/bookmark';
 
 function Content() {
   return (
+    <>
     <div className="App">
       <Routes>
         <Route exact={true} path="/" element={<SignIn />}></Route>
@@ -26,6 +27,7 @@ function Content() {
         <Route path="/bookmark" element={<Bookmark />}></Route>
       </Routes>
     </div>
+    </>
   );
 }
 export default Content;

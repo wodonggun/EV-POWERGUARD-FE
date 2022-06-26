@@ -13,15 +13,16 @@ import {
 } from '@mui/material';
 import DriverLogWrite from './driverlog_writing';
 import api from '../../api';
-import {
-  LocalizationProvider,
-  DatePicker,
-} from '@mui/x-date-pickers';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useConfirm } from 'material-ui-confirm';
 
-export default function DriverLogDetail({ data, isShow, setVisible, reloadList,})
-{
+export default function DriverLogDetail({
+  data,
+  isShow,
+  setVisible,
+  reloadList,
+}) {
   const stationName = useRef();
   const chargeDate = useRef();
   const nowMileage = useRef();
@@ -81,7 +82,7 @@ export default function DriverLogDetail({ data, isShow, setVisible, reloadList,}
   const handleChangeDate = useCallback(() => {
     //
     setDate(date);
-    console.log(date)
+    console.log(date);
   });
 
   const handleRefReload = (event) => {
@@ -108,22 +109,25 @@ export default function DriverLogDetail({ data, isShow, setVisible, reloadList,}
   };
 
   return (
-    <Dialog fullWidth={fullWidth}
-            maxWidth={maxWidth}
-            open={isShow}
-            onClose={handleClose}
+    <Dialog
+      fullWidth={fullWidth}
+      maxWidth={maxWidth}
+      open={isShow}
+      onClose={handleClose}
     >
       <DialogTitle>차계부 상세보기</DialogTitle>
       <DialogContent>
         {/* 첫번째 행 */}
         <Grid container sx={{ padding: '10px 0' }}>
-          <Grid item xs>
+          <Grid item xs={2}>
             <Typography variant="subtitle1">이용 충전소</Typography>
           </Grid>
-          <Grid item xs>
+          <Grid item xs={4}>
             <Typography variant="subtitle1">
-              <TextareaAutosize
+              <TextField
                 id="stationName"
+                variant="outlined"
+                size="small"
                 inputRef={stationName}
                 value={
                   inputs.stationName === null
@@ -139,14 +143,15 @@ export default function DriverLogDetail({ data, isShow, setVisible, reloadList,}
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1">
+              {/*
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   id="chargeDate"
-                  mask='yyyy-MM-dd'
+                  mask="yyyy-MM-dd"
                   value={
-                  inputs.chargeDate === null
-                    ? data.chargeDate
-                    : inputs.chargeDate
+                    inputs.chargeDate === null
+                      ? data.chargeDate
+                      : inputs.chargeDate
                   }
                   //minDate={new Date('2017-01-01')}
                   onChange={(newValue) => {
@@ -156,6 +161,22 @@ export default function DriverLogDetail({ data, isShow, setVisible, reloadList,}
                   // onChange={handleChangeDate}
                 />
               </LocalizationProvider>
+               */}
+
+              <Typography variant="subtitle1">
+                <TextField
+                  id="chargeDate"
+                  variant="outlined"
+                  size="small"
+                  inputRef={chargeDate}
+                  value={
+                    inputs.chargeDate === null
+                      ? data.chargeDate
+                      : inputs.chargeDate
+                  }
+                  onChange={handleInputChange}
+                />
+              </Typography>
             </Typography>
           </Grid>
           {/* <Grid item xs>
@@ -170,41 +191,42 @@ export default function DriverLogDetail({ data, isShow, setVisible, reloadList,}
 
         {/* 두번째 행 */}
         <Grid container sx={{ padding: '10px 0' }}>
-          <Grid item xs>
+          <Grid item xs={2}>
             <Typography variant="subtitle1">충전기 타입</Typography>
           </Grid>
-          <Grid item xs>
+          <Grid item xs={4}>
             <Typography variant="subtitle1" readOnly>
               {data.chargerType}
             </Typography>
           </Grid>
-          <Grid item xs>
+          <Grid item xs={2}>
             <Typography variant="subtitle1">현재 키로수</Typography>
           </Grid>
-          <Grid item xs>
-            <TextareaAutosize
+          <Grid item xs={4}>
+            <TextField
               id="nowMileage"
-              style={{ width: 90 }}
+              variant="outlined"
+              size="small"
               inputRef={nowMileage}
               value={
-                inputs.nowMileage === null
-                  ? data.nowMileage
-                  : inputs.nowMileage
+                inputs.nowMileage === null ? data.nowMileage : inputs.nowMileage
               }
               onChange={handleInputChange}
-            /> km
+            />{' '}
+            km
           </Grid>
         </Grid>
 
         {/* 세번째 행 */}
         <Grid container sx={{ padding: '10px 0' }}>
-          <Grid item xs>
+          <Grid item xs={2}>
             <Typography variant="subtitle1">충전 전력량</Typography>
           </Grid>
-          <Grid item xs>
-            <TextareaAutosize
+          <Grid item xs={4}>
+            <TextField
               id="chargeAmount"
-              style={{ width: 90 }}
+              variant="outlined"
+              size="small"
               inputRef={chargeAmount}
               value={
                 inputs.chargeAmount === null
@@ -212,41 +234,38 @@ export default function DriverLogDetail({ data, isShow, setVisible, reloadList,}
                   : inputs.chargeAmount
               }
               onChange={handleInputChange}
-            /> kW
+            />{' '}
+            kW
           </Grid>
-          <Grid item xs>
+          <Grid item xs={2}>
             <Typography variant="subtitle1">충전 요금</Typography>
           </Grid>
-          <Grid item xs>
-             <TextareaAutosize
-                id="chargeFee"
-                style={{ width: 90 }}
-                value={
-                  inputs.chargeFee === null
-                    ? data.chargeFee
-                    : inputs.chargeFee
-                }
-                onChange={handleInputChange}
-              /> 원
+          <Grid item xs={4}>
+            <TextField
+              id="chargeFee"
+              variant="outlined"
+              size="small"
+              inputRef={chargeFee}
+              value={
+                inputs.chargeFee === null ? data.chargeFee : inputs.chargeFee
+              }
+              onChange={handleInputChange}
+            />{' '}
+            원
           </Grid>
         </Grid>
 
         {/* 네번째 행 */}
         <Grid container sx={{ padding: '10px 0' }}>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Typography variant="subtitle1">메모</Typography>
           </Grid>
-          <Grid item xs={3}>
-            <TextareaAutosize
+          <Grid item xs={10}>
+            <TextField
               id="memo"
-              minRows={4}
-              style={{ width: 500 }}
+              fullWidth
               inputRef={memo}
-              value={
-                inputs.memo === null
-                  ? data.memo
-                  : inputs.memo
-              }
+              value={inputs.memo === null ? data.memo : inputs.memo}
               onChange={handleInputChange}
             />
           </Grid>

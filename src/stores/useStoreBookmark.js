@@ -6,14 +6,24 @@ const useStoreBookmark = create(
   devtools((set) => ({
     bookmarkList: [],
     visible: {
-      detail: false,
-      list: false,
-      writing: false,
+      bookmarkList: false,
     },
     setBookmarkList: (value) =>
       set(
         produce((state) => {
           state.bookmarkList = value;
+        })
+      ),
+    setVisible: (type, value) =>
+      set(
+        produce((state) => {
+          state.visible[type] = value;
+        })
+      ),
+    setPage: (value) =>
+      set(
+        produce((state) => {
+          state.page = value;
         })
       ),
   }))

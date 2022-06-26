@@ -31,12 +31,7 @@ const CustomToolbar = ({ setFilterButtonEl }) => (
 const renderCreateBookmarkButton = (params) => {
   return (
     <strong>
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        style={{ marginLeft: 16 }}
-      >
+      <Button variant="contained" color="primary" style={{ marginLeft: 16 }}>
         즐겨찾기 등록
       </Button>
     </strong>
@@ -129,7 +124,7 @@ const columns = [
     field: 'bookmark',
     headerName: '즐겨찾기 등록',
     type: 'number',
-    width: 130,
+    width: 150,
     headerAlign: 'center',
     renderCell: renderCreateBookmarkButton,
   },
@@ -200,7 +195,7 @@ function Station() {
 
   const createBookmark = async (stationId) => {
     console.log('station id : ' + stationId);
-    confirm({ description: `등록하시겠습니까?` })
+    confirm({ description: `즐겨찾기 충전소로 등록하시겠습니까?` })
       .then(() => {
         api.post(
           'api/stations/bookmarks',

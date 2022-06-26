@@ -5,15 +5,30 @@ import produce from 'immer';
 const useStoreBookmark = create(
   devtools((set) => ({
     bookmarkList: [],
+    page: {
+      size: 1000,
+      page: 1,
+      sort: '',
+    },
     visible: {
-      detail: false,
-      list: false,
-      writing: false,
+      bookmarkList: false,
     },
     setBookmarkList: (value) =>
       set(
         produce((state) => {
           state.bookmarkList = value;
+        })
+      ),
+    setVisible: (type, value) =>
+      set(
+        produce((state) => {
+          state.visible[type] = value;
+        })
+      ),
+    setPage: (value) =>
+      set(
+        produce((state) => {
+          state.page = value;
         })
       ),
   }))

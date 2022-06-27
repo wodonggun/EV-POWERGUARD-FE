@@ -6,7 +6,6 @@ const useStoreDriverLog = create(
   devtools((set) => ({
     filterButtonEl: null,
     driverLogList: [],
-    driverLog: null,
     visible: {
       detail: false,
       list: false,
@@ -29,12 +28,6 @@ const useStoreDriverLog = create(
       set(
         produce((state) => {
           state.driverLogList = value;
-        })
-      ),
-    setDriverLog: (value) =>
-      set(
-        produce((state) => {
-          state.driverLog = value;
         })
       ),
     setVisible: (type, value) =>

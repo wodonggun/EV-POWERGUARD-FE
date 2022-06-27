@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import DriverLogWrite from './driverlog_writing';
 import api from '../../api';
+import { useStoreDriverLog } from '../../stores';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -23,12 +24,16 @@ export default function DriverLogDetail({
   setVisible,
   reloadList,
 }) {
-  const stationName = useRef();
-  const chargeDate = useRef();
-  const nowMileage = useRef();
-  const chargeAmount = useRef();
-  const chargeFee = useRef();
-  const memo = useRef();
+  //const setDriverLog = useStoreDriverLog((state) => state);
+
+  const setDriverLog = useState;
+
+  // const stationName = useRef();
+  // const chargeDate = useRef();
+  // const nowMileage = useRef();
+  // const chargeAmount = useRef();
+  // const chargeFee = useRef();
+  // const memo = useRef();
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
   const confirm = useConfirm();
@@ -36,7 +41,7 @@ export default function DriverLogDetail({
   const handleClose = () => {
     setVisible('detail', false);
   };
-
+  
   const handleDelete = () => {
     console.log(data.id);
     confirm({ description: `삭제하시겠습니까?` })
@@ -83,12 +88,14 @@ export default function DriverLogDetail({
   };
 
   //Data Picker 변수
-  const [startDate, setStartDate] = useState(new Date(data.chargeDate));
+  const [startDate, setStartDate] = useState();
 
   console.warn('경고');
   console.log('data.chargeDate는 %d', data.chargeData);
 
   const handleChangeDate = (newStartDate) => {
+    console.log("*****************handleChangeDate호출*****************");
+    console.log(data.chargeDate);
     setStartDate(newStartDate);
   };
 
@@ -98,13 +105,39 @@ export default function DriverLogDetail({
   };
 
   const [inputs, setInputs] = useState({
+    id: null,
+    stationId: null,
     stationName: null,
+    chargerId: null,
+    carName: null,
+    batteryCapacity: null,
+    chargerType: null,
     chargeDate: null,
+    beforeMileage: null,
     nowMileage: null,
     chargeAmount: null,
     chargeFee: null,
+    electronicEffiency: null,
     memo: null,
+    loginId: null,
   });
+  const {
+    id,
+    stationId,
+    stationName,
+    chargerId,
+    carName,
+    batteryCapacity,
+    chargerType,
+    chargeDate,
+    beforeMileage,
+    nowMileage,
+    chargeAmount,
+    chargeFee,
+    electronicEffiency,
+    memo,
+    loginId,
+  } = inputs;
 
   const handleInputChange = (e) => {
     const { value, id } = e.target; // 우선 e.target 에서 id 과 value 를 추출
@@ -114,6 +147,29 @@ export default function DriverLogDetail({
     });
     console.log(inputs);
   };
+
+  /**
+   * 차계부 상세를 서버에서 조회해 온다.
+   */
+   const getDriverLog = async () => {
+    console.log(data.id);
+    const res = await api.get('/api/driverlogs/' + data.id);
+    if (res.status === 200 || res.status === 302) {
+      console.log('***********************************');
+      //setDriverLog(res.data);
+      setInputs(res.data);
+      console.log(res.data);
+      console.log(res.data.id);
+      console.log(id);
+    }
+
+    return res;
+  };
+  
+  useEffect(() => { 
+    console.log("getDriverLog() 호출");
+
+    if (isShow) { getDriverLog(); } }, [isShow]);
 
   return (
     <Dialog
@@ -135,11 +191,12 @@ export default function DriverLogDetail({
                 id="stationName"
                 variant="outlined"
                 size="small"
-                inputRef={stationName}
+                //inputRef={stationName}
                 value={
-                  inputs.stationName === null
-                    ? data.stationName
-                    : inputs.stationName
+                  // inputs.stationName === null
+                  //   ? data.stationName
+                  //   : inputs.stationName
+                  stationName
                 }
                 onChange={handleInputChange}
               />
@@ -154,9 +211,10 @@ export default function DriverLogDetail({
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   id="chargeDate"
-                  value={startDate === null
-                    ? data.chargeDate
-                    : startDate}
+                  value={startDate}
+                    // startDate === null
+                    // ? data.chargeDate
+                    // : startDate}
                   inputFormat="yyyy/MM/dd hh:mm a"
                   mask="___/__/__ __:__ _M"
                   onChange={handleChangeDate}
@@ -209,7 +267,7 @@ export default function DriverLogDetail({
               id="nowMileage"
               variant="outlined"
               size="small"
-              inputRef={nowMileage}
+              //inputRef={nowMileage}
               value={
                 inputs.nowMileage === null ? data.nowMileage : inputs.nowMileage
               }
@@ -229,7 +287,7 @@ export default function DriverLogDetail({
               id="chargeAmount"
               variant="outlined"
               size="small"
-              inputRef={chargeAmount}
+              //inputRef={chargeAmount}
               value={
                 inputs.chargeAmount === null
                   ? data.chargeAmount
@@ -247,7 +305,7 @@ export default function DriverLogDetail({
               id="chargeFee"
               variant="outlined"
               size="small"
-              inputRef={chargeFee}
+              //inputRef={chargeFee}
               value={
                 inputs.chargeFee === null ? data.chargeFee : inputs.chargeFee
               }
@@ -266,7 +324,7 @@ export default function DriverLogDetail({
             <TextField
               id="memo"
               fullWidth
-              inputRef={memo}
+              //inputRef={memo}
               value={inputs.memo === null ? data.memo : inputs.memo}
               onChange={handleInputChange}
             />

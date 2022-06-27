@@ -24,14 +24,16 @@ export default function DriverLogDetail({
   setVisible,
   reloadList,
 }) {
-  const setDriverLog = useStoreDriverLog((state) => state);
+  //const setDriverLog = useStoreDriverLog((state) => state);
 
-  const stationName = useRef();
-  const chargeDate = useRef();
-  const nowMileage = useRef();
-  const chargeAmount = useRef();
-  const chargeFee = useRef();
-  const memo = useRef();
+  const setDriverLog = useState;
+
+  // const stationName = useRef();
+  // const chargeDate = useRef();
+  // const nowMileage = useRef();
+  // const chargeAmount = useRef();
+  // const chargeFee = useRef();
+  // const memo = useRef();
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
   const confirm = useConfirm();
@@ -92,6 +94,8 @@ export default function DriverLogDetail({
   console.log('data.chargeDate는 %d', data.chargeData);
 
   const handleChangeDate = (newStartDate) => {
+    console.log("*****************handleChangeDate호출*****************");
+    console.log(data.chargeDate);
     setStartDate(newStartDate);
   };
 
@@ -101,13 +105,39 @@ export default function DriverLogDetail({
   };
 
   const [inputs, setInputs] = useState({
+    id: null,
+    stationId: null,
     stationName: null,
+    chargerId: null,
+    carName: null,
+    batteryCapacity: null,
+    chargerType: null,
     chargeDate: null,
+    beforeMileage: null,
     nowMileage: null,
     chargeAmount: null,
     chargeFee: null,
+    electronicEffiency: null,
     memo: null,
+    loginId: null,
   });
+  const {
+    id,
+    stationId,
+    stationName,
+    chargerId,
+    carName,
+    batteryCapacity,
+    chargerType,
+    chargeDate,
+    beforeMileage,
+    nowMileage,
+    chargeAmount,
+    chargeFee,
+    electronicEffiency,
+    memo,
+    loginId,
+  } = inputs;
 
   const handleInputChange = (e) => {
     const { value, id } = e.target; // 우선 e.target 에서 id 과 value 를 추출
@@ -126,7 +156,11 @@ export default function DriverLogDetail({
     const res = await api.get('/api/driverlogs/' + data.id);
     if (res.status === 200 || res.status === 302) {
       console.log('***********************************');
-      setDriverLog(res.data);
+      //setDriverLog(res.data);
+      setInputs(res.data);
+      console.log(res.data);
+      console.log(res.data.id);
+      console.log(id);
     }
 
     return res;
@@ -136,7 +170,7 @@ export default function DriverLogDetail({
     console.log("getDriverLog() 호출");
 
     if (isShow) { getDriverLog(); } }, [isShow]);
-    
+
   return (
     <Dialog
       fullWidth={fullWidth}
@@ -157,11 +191,12 @@ export default function DriverLogDetail({
                 id="stationName"
                 variant="outlined"
                 size="small"
-                inputRef={stationName}
+                //inputRef={stationName}
                 value={
-                  inputs.stationName === null
-                    ? data.stationName
-                    : inputs.stationName
+                  // inputs.stationName === null
+                  //   ? data.stationName
+                  //   : inputs.stationName
+                  stationName
                 }
                 onChange={handleInputChange}
               />
@@ -176,14 +211,13 @@ export default function DriverLogDetail({
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   id="chargeDate"
-                  defaultValue={
-                    data.chargeDate}
-                    //startDate === null
-                    //? data.chargeDate
-                    //: startDate}
+                  value={startDate}
+                    // startDate === null
+                    // ? data.chargeDate
+                    // : startDate}
                   inputFormat="yyyy/MM/dd hh:mm a"
                   mask="___/__/__ __:__ _M"
-                  //onChange={handleChangeDate}
+                  onChange={handleChangeDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
@@ -233,7 +267,7 @@ export default function DriverLogDetail({
               id="nowMileage"
               variant="outlined"
               size="small"
-              inputRef={nowMileage}
+              //inputRef={nowMileage}
               value={
                 inputs.nowMileage === null ? data.nowMileage : inputs.nowMileage
               }
@@ -253,7 +287,7 @@ export default function DriverLogDetail({
               id="chargeAmount"
               variant="outlined"
               size="small"
-              inputRef={chargeAmount}
+              //inputRef={chargeAmount}
               value={
                 inputs.chargeAmount === null
                   ? data.chargeAmount
@@ -271,7 +305,7 @@ export default function DriverLogDetail({
               id="chargeFee"
               variant="outlined"
               size="small"
-              inputRef={chargeFee}
+              //inputRef={chargeFee}
               value={
                 inputs.chargeFee === null ? data.chargeFee : inputs.chargeFee
               }
@@ -290,7 +324,7 @@ export default function DriverLogDetail({
             <TextField
               id="memo"
               fullWidth
-              inputRef={memo}
+              //inputRef={memo}
               value={inputs.memo === null ? data.memo : inputs.memo}
               onChange={handleInputChange}
             />

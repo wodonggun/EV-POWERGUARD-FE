@@ -14,16 +14,15 @@ function Side() {
     //로그인 안되어 있으면 페이지 이동 막기.
     //테스트하실때는 강제로 아래 주석풀어서 세션스토리지에 넣고 사용하세요.
     //----------------------------------------------- ToDo. 아래 세션 체크 로직 변경해주세요. by JIN 2022-06-24
-    let sessionStorage = window.sessionStorage;
-    sessionStorage.setItem('id', 'TEST@naver.com');
-
-    let id = sessionStorage.getItem('id');
-    if (id === null || id === '' || id === 'GUEST') {
-      alert('로그인 먼저 진행해주세요.');
-      event.preventDefault();
-    } else {
-      setSelectedIndex(index);
-    }
+    // let sessionStorage = window.sessionStorage;
+    // sessionStorage.setItem('id', 'TEST@naver.com');
+    // let id = sessionStorage.getItem('id');
+    // if (id === null || id === '' || id === 'GUEST') {
+    //   alert('로그인 먼저 진행해주세요.');
+    //   event.preventDefault();
+    // } else {
+    //   setSelectedIndex(index);
+    // }
   };
   /* 메뉴 추가 */
   const itemList = [

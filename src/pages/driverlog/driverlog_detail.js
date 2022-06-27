@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import DriverLogWrite from './driverlog_writing';
 import api from '../../api';
+import { useStoreDriverLog } from '../../stores';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -23,6 +24,8 @@ export default function DriverLogDetail({
   setVisible,
   reloadList,
 }) {
+  const setDriverLog = useStoreDriverLog((state) => state);
+
   const stationName = useRef();
   const chargeDate = useRef();
   const nowMileage = useRef();
@@ -36,7 +39,7 @@ export default function DriverLogDetail({
   const handleClose = () => {
     setVisible('detail', false);
   };
-
+  
   const handleDelete = () => {
     console.log(data.id);
     confirm({ description: `삭제하시겠습니까?` })
@@ -83,7 +86,7 @@ export default function DriverLogDetail({
   };
 
   //Data Picker 변수
-  const [startDate, setStartDate] = useState(new Date(data.chargeDate));
+  const [startDate, setStartDate] = useState();
 
   console.warn('경고');
   console.log('data.chargeDate는 %d', data.chargeData);
@@ -115,6 +118,25 @@ export default function DriverLogDetail({
     console.log(inputs);
   };
 
+  /**
+   * 차계부 상세를 서버에서 조회해 온다.
+   */
+   const getDriverLog = async () => {
+    console.log(data.id);
+    const res = await api.get('/api/driverlogs/' + data.id);
+    if (res.status === 200 || res.status === 302) {
+      console.log('***********************************');
+      setDriverLog(res.data);
+    }
+
+    return res;
+  };
+  
+  useEffect(() => { 
+    console.log("getDriverLog() 호출");
+
+    if (isShow) { getDriverLog(); } }, [isShow]);
+    
   return (
     <Dialog
       fullWidth={fullWidth}
@@ -154,12 +176,14 @@ export default function DriverLogDetail({
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   id="chargeDate"
-                  value={startDate === null
-                    ? data.chargeDate
-                    : startDate}
+                  defaultValue={
+                    data.chargeDate}
+                    //startDate === null
+                    //? data.chargeDate
+                    //: startDate}
                   inputFormat="yyyy/MM/dd hh:mm a"
                   mask="___/__/__ __:__ _M"
-                  onChange={handleChangeDate}
+                  //onChange={handleChangeDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>

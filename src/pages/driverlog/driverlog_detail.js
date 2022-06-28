@@ -57,30 +57,19 @@ export default function DriverLogDetail({
 
     confirm({ description: `수정하시겠습니까?` })
       .then(() => {
-        api.put(
-          'api/driverlogs', inputs,
-          // {
-          //   id: data.id,
-          //   stationId: stationId,
-          //   stationName: stationName,
-          //   chargerId: chargerId,
-          //   carName: carName,
-          //   batteryCapacity: batteryCapacity,            
-          //   chargerType: chargerType,
-          //   chargeAmount: chargeAmount,
-          //   beforeMileage: beforeMileage,
-          //   nowMileage: nowMileage,
-          //   chargeFee: chargeFee,
-          //   electronicEffiency: electronicEffiency,
-          //   memo: memo,
-          //   chargeDate: chargeDate,
-          //   loginId: data.loginId,
-          // },
-          null,
-          handleRefReload
-        );
+        getModify();
       })
       .catch(() => console.log('Save cancelled.'));
+  };
+
+  const getModify = async() => {
+    let res = await api.patch('api/driverlogs/'+data.id, inputs, null, handleRefReload);
+
+    if (res.status === 200 || res.status === 302) {
+      console.log('****************수정됨*******************');
+      
+      console.log(res.data);
+    }
   };
 
   // const handleChangeDate = (newStartDate) => {
@@ -90,6 +79,7 @@ export default function DriverLogDetail({
   // };
 
   const handleRefReload = (event) => {
+    console.log("handleRefReload 탔어요.");
     setVisible('detail', false);
     reloadList();
   };
@@ -136,7 +126,6 @@ export default function DriverLogDetail({
       ...inputs,
       [id]: value, // id 키를 가진 값을 value 로 설정
     });
-    console.log(inputs);
   };
 
   /**
@@ -145,12 +134,14 @@ export default function DriverLogDetail({
    const getDriverLog = async () => {
     console.log(data.id);
     const res = await api.get('/api/driverlogs/' + data.id);
+    console.log(res);
     if (res.status === 200 || res.status === 302) {
-      console.log('***********************************');
+      console.log('****************setInputs시작*******************');
       //setDriverLog(res.data);
       setInputs(res.data);
-      console.log(res.data);
-      console.log(res.data.id);
+      // console.log(res.data);
+      // console.log(res.data.id);
+      console.log('****************inputs 값 출력*******************');
       console.log(inputs);
     }
 
@@ -158,9 +149,10 @@ export default function DriverLogDetail({
   };
   
   useEffect(() => { 
-    console.log("getDriverLog() 호출");
-
-    if (isShow) { getDriverLog(); } }, [isShow]);
+    if (isShow) {
+      console.log("getDriverLog() 호출" + isShow);
+      getDriverLog(); 
+    } }, [isShow]);
 
   return (
     <Dialog
@@ -179,18 +171,17 @@ export default function DriverLogDetail({
           <Grid item xs={4}>
             <Typography variant="subtitle1">
               <TextField
+                  disabled
+                  id="stationName"
+                  value={stationName}
+                />    
+              {/* <TextField
                 id="stationName"
                 variant="outlined"
                 size="small"
-                //inputRef={stationName}
-                value={
-                  // inputs.stationName === null
-                  //   ? data.stationName
-                  //   : inputs.stationName
-                  stationName
-                }
+                value={stationName}
                 onChange={handleInputChange}
-              />
+              /> */}
             </Typography>
           </Grid>
           <Grid item xs={2}>
@@ -221,7 +212,11 @@ export default function DriverLogDetail({
           </Grid>
           <Grid item xs={4}>
             <Typography variant="subtitle1" readOnly>
-              {chargerType}
+              <TextField
+                disabled
+                id="chargerType"
+                value={chargerType}
+              />              
             </Typography>
           </Grid>
           <Grid item xs={2}>

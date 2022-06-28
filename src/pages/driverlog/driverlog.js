@@ -21,7 +21,7 @@ const columns = [
     field: 'id',
     headerName: '순서',
     type: 'string',
-    width: 100,
+    width: 50,
     headerClassName: 'super-app-theme--header',
     headerAlign: 'center',
     renderCell: (params) => <span>{params.id}</span>,
@@ -31,27 +31,34 @@ const columns = [
     headerName: '이용일자',
     width: 110,
     type: 'date',
+    headerAlign: 'center',
     valueGetter: ({ value }) => value && new Date(value),
   },
   {
     field: 'stationName',
     headerName: '이용 충전소명',
     type: 'string',
+    width: 150,
+    headerAlign: 'center',
   },
   {
     field: 'chargerType',
     headerName: '충전기 타입',
     type: 'string',
+    headerAlign: 'center',
   },
   {
     field: 'chargeAmount',
     headerName: '충전 전력량(kWh)',
     type: 'number',
+    width: 130,
+    headerAlign: 'center',
   },
   {
     field: 'chargeFee',
     headerName: '충전요금(원)',
     type: 'number',
+    headerAlign: 'center',
   },
   // {
   //   field: 'starPoint',
@@ -65,17 +72,22 @@ const columns = [
     field: 'nowMileage',
     headerName: '현재 키로수(km)',
     type: 'number',
+    width: 130,
+    headerAlign: 'center',
   },
   {
     field: 'memo',
     headerName: '메모',
-    width: 280,
     type: 'string',
+    width: 350,
+    headerAlign: 'center',
   },
   {
     field: 'electronicEfficiency',
     headerName: '전비(km/kWh)',
     type: 'number',
+    width: 110,
+    headerAlign: 'center',
     renderCell: (params) => (
       <Button variant="contained" size="small">
         전비계산
@@ -111,20 +123,21 @@ function DriverLog() {
     if (params.field === 'electronicEfficiency') {
       setVisible('writing', true);
     }else {
-      selectedRow.current = params.row;
+      selectedRow.current = params.row;      
       setVisible('detail', true);
+      
     }
   }, []);
   const handleClickWriteDriverLog = useCallback((params, event) => {
     setVisible('list', true);
   });
-  const handleClickGetMyDriverLog = useCallback((params, event) => {
-    const res = api.get('api/driverlogs', { id: 'id' });
-    //const res = api.get('/driverlogs', { reviewerId: 'user01' });
-    if (res.status === 200 || res.status === 302) {
-      setDriverLogList();
-    }
-  }, []);
+  // const handleClickGetMyDriverLog = useCallback((params, event) => {
+  //   const res = api.get('api/driverlogs', { id: 'id' });
+  //   //const res = api.get('/driverlogs', { reviewerId: 'user01' });
+  //   if (res.status === 200 || res.status === 302) {
+  //     setDriverLogList();
+  //   }
+  // }, []);
 
   const handleSelectStation = useCallback((visible, stationData) => {
     setSelectedStation(stationData);
@@ -156,7 +169,7 @@ function DriverLog() {
         alignItems: 'center',
         flexDirection: 'column',
         margin: '10px 40px',
-        width: '100vm',
+        width: '100%',
       }}
     >
       <div style={{ alignSelf: 'self-start' }}>
@@ -166,6 +179,8 @@ function DriverLog() {
         <Button onClick={handleClickWriteDriverLog}>차계부 쓰기</Button>
       </div>
       <div style={{ height: 500, width: '100%' }}>
+      <div style={{ display: 'flex', height: '100%' }}>
+        <div style={{ flexGrow: 1 }}>
         <DataGrid
           rows={driverLogList}
           columns={columns}
@@ -186,7 +201,7 @@ function DriverLog() {
           }}
           onCellClick={handleClickCalEfficiency}
         />
-      </div>
+      </div></div></div>
       <DriverLogDetail
         isShow={visible['detail']}
         data={selectedRow.current}

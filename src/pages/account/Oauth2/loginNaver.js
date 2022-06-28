@@ -17,8 +17,9 @@ function LoginNaver() {
   naverScript.onload = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
       clientId: 'Bmd7liz8fL4CGRV4QcXo',
-      callbackUrl: 'http://localhost:3000',
-      callbackHandle: true,
+      callbackUrl: 'https://ev.hrd-edu.cloudzcp.com',
+      //callbackUrl: 'http://localhost:3000',
+      callbackHandle: false,
       isPopup: false, // 로그인 팝업여부
       loginButton: {
         color: 'green', // 색상(white, green)

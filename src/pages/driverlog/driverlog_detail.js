@@ -191,9 +191,10 @@ export default function DriverLogDetail({
             <Typography variant="subtitle1">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <MobileDateTimePicker
+                  id="chargeDate"
                   value={chargeDate}
                   onChange={(newValue) => {
-                    setInputs({chargeDate : newValue});
+                    setInputs({ ...inputs, ["chargeDate"]: newValue, });                    
                   }}
                   onError={console.log}
                   inputFormat="yyyy/MM/dd hh:mm a"

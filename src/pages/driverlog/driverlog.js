@@ -119,6 +119,10 @@ function DriverLog() {
     loginId: '',
   });
 
+  let sessionStorage = window.sessionStorage;
+  //sessionStorage.setItem('id', 'TEST@naver.com');
+  let sessionLoginId = sessionStorage.getItem('id');
+
   const handleClickCalEfficiency = useCallback((params, event) => {
     if (params.field === 'electronicEfficiency') {
       setVisible('writing', true);
@@ -148,7 +152,9 @@ function DriverLog() {
    * 전체 차계부 목록을 서버에서 조회해 온다.
    */
   const getDriverLogList = async () => {
-    const res = await api.get('/api/driverlogs');
+    console.log("****************" , sessionLoginId);
+
+    const res = await api.get('/api/driverlogs/loginId/' + sessionLoginId);
     if (res.status === 200 || res.status === 302) {
       setDriverLogList(res.data);
     }

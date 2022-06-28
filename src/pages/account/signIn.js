@@ -56,7 +56,6 @@ export default function SignInSide() {
   //submit 버튼 실행
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('1234');
 
     const data = new FormData(event.currentTarget);
     console.log({

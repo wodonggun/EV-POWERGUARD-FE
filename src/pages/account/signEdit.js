@@ -60,7 +60,7 @@ export default function SignEdit() {
     carInfo: { carNumber, carName, chargerType, batteryCapacity },
   } = inputs;
 
-  //
+ 
   const onChange = (e) => {
     if (e.target.name === 'carInfo') {
       if (e.target.id === 'carNumber')
@@ -112,10 +112,11 @@ export default function SignEdit() {
   };
 
   const getUser = async () => {
+    
     //Header ID정보 체크
     if (userId === null || userId === 'GUEST' || userId.length === 0) {
       alert('로그인을 먼저 진행해주세요.');
-      navigate('/signIn');
+      navigate('/signIn',{replace:true});
       return;
     }
     const res = await api.get('http://localhost:8080/api/users/' + userId);
@@ -221,10 +222,6 @@ export default function SignEdit() {
     }
   };
 
-  useEffect(() => {
-    // component 가 랜더링 될 때 실행되는 함수
-    getUser();
-  }, []);
 
   //일단 보류
   const handleSubmit = (event) => {
@@ -247,6 +244,14 @@ export default function SignEdit() {
   const hasError = (passwordEntered) =>
     password.length < passwordMinValue ? true : false;
 
+
+
+  useEffect(() => {
+    // component 가 랜더링 될 때 실행되는 함수
+    getUser();
+  }, []);
+
+    
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

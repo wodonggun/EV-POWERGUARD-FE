@@ -17,8 +17,8 @@ function LoginNaver() {
   naverScript.onload = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
       clientId: 'Bmd7liz8fL4CGRV4QcXo',
-      callbackUrl: 'http://localhost:3000',
-      callbackHandle: true,
+      callbackUrl: 'https://ev.hrd-edu.cloudzcp.com/station',
+      callbackHandle: false,
       isPopup: false, // 로그인 팝업여부
       loginButton: {
         color: 'green', // 색상(white, green)
@@ -61,7 +61,7 @@ function LoginNaver() {
           id_token: '',
         };
         LoggedIn(loginValue);
-        navigate('/station');
+        //navigate('/station');
         store.setUserProfile(email, profile_image, '');
       } else {
         console.log('Naver 비 로그인 상태');

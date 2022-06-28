@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -55,15 +55,15 @@ export default function SignInSide() {
 
   //submit 버튼 실행
   const handleSubmit = (event) => {
-    console.log('1234');
-    LoggedIn();
     event.preventDefault();
+    console.log('1234');
+
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
-
+    LoggedIn(data);
     loginRequest(data);
   };
 
@@ -103,6 +103,12 @@ export default function SignInSide() {
       alert('로그인 실패 : ' + props.get('email') + '의 회원정보가 없습니다.');
     }
   };
+
+  useEffect(() => {
+    // component 가 랜더링 될 때 실행되는 함수
+    // 로그인 되어있으면 Profile수정으로 라우트
+
+  }, []);
 
   return (
     <Container>

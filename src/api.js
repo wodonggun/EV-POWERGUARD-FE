@@ -66,9 +66,12 @@ const PUT = async (url, data, config, sFunc, fFunc) => {
 };
 
 //수정(patch) 추가
-const PATCH = async (url, config, sFunc, fFunc) => {
+const PATCH = async (url, data, config, sFunc, fFunc) => {
   try {
-    const response = await axios.patch(url, config);
+    const response = await axios.patch(
+      url, 
+      data, 
+      Object.assign(baseConfig, config));
     if (typeof sFunc === 'function') {
       sFunc(response);
     }

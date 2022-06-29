@@ -45,7 +45,7 @@ function LoggedIn(props) {
   //로그인 이후 페이지 이동.
   // console.log('1234');
   // //navigate('/station');
-
+  console.log("sessionStorage값 : ",sessionStorage);
   return <></>;
 }
 

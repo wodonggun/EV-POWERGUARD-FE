@@ -47,14 +47,15 @@ const useStoreAuth = create(
           state.userToken = value3;
         })
       ),
+    //값 초기화
     setInitialize: () =>
       set(
         produce((state) => {
-          this.USER_ID = 'GUEST';
-          this.USER_PROFILE_IMAGE = '/static/images/avatar/2.jpg';
-          this.USER_TOKEN = '';
-          this.USER_MEMBERSHIP = 'GUEST';
-          this.USER_PROFILE = '';
+          state.userId = USER_ID;
+          state.userProfileImg = USER_PROFILE_IMAGE;
+          state.userToken = USER_TOKEN;
+          state.userMemberShip = USER_MEMBERSHIP;
+          state.userProfile = USER_PROFILE;
         })
       ),
   }))

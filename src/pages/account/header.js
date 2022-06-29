@@ -209,7 +209,7 @@ const Header = () => {
                       if (props.target.innerHTML === 'Logout') {
                         navigate('/signIn', { replace: true });
                         LogOut();
-                        useStoreAuth.setInitialize();
+                        setInitialize();
                       } else if (props.target.innerHTML === 'Profile') {
                         navigate('/signEdit', { replace: true });
                       } else if (props.target.innerHTML === 'Login') {
